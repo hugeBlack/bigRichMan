@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 // 具体享元
-public class PlayerPicture implements Asset{
+public class PlayerPicture implements IAsset {
 
     public Image img;
 

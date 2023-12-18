@@ -147,7 +147,7 @@ public abstract class Component {
         }
     }
 
-    Component(Vector2i p, Vector2i hitBoxSize){
+    public Component(Vector2i p, Vector2i hitBoxSize){
         relativePosition = new Vector2i(p);
         this.hitBoxSize = new Vector2i(hitBoxSize);
     }
@@ -155,5 +155,9 @@ public abstract class Component {
     private boolean inHitBox(int x, int y){
         return x >= relativePosition.x && x < relativePosition.x + hitBoxSize.x
                 && y >= relativePosition.y && y < relativePosition.y + hitBoxSize.y;
+    }
+
+    public HashSet<Component> getChildren() {
+        return children;
     }
 }

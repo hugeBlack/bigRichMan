@@ -1,4 +1,5 @@
 package org.dp.view;
+import org.dp.scene.Scene;
 import org.dp.utils.Vector2i;
 
 import javax.swing.*;
@@ -64,7 +65,7 @@ public class Playground extends Component{
             public void run() {
                 while(true){
                     try {
-                        Thread.sleep(16);
+                        Thread.sleep(15);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -113,4 +114,8 @@ public class Playground extends Component{
         currentCursor = cursorId;
     }
 
+    public void switchScene(Scene newScene){
+        this.getChildren().clear();
+        this.addComponent(newScene);
+    }
 }

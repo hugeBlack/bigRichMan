@@ -1,18 +1,19 @@
-package org.dp.view;
+package org.dp.scene;
 
 import org.dp.assets.AssetFactory;
-import org.dp.assets.TestFont;
+import org.dp.assets.FontLib;
 import org.dp.utils.Vector2i;
+import org.dp.view.ComponentObserver;
+import org.dp.components.Player;
 import org.dp.view.events.ComponentEvent;
 
 import java.awt.*;
 
-public class TestScene extends Component{
+public class TestScene extends Scene {
     // 这是个例子，图上有一个玩家，点一下玩家图像就左右移动，然后发出一个PlayerClicked事件，被observer接收，然后clickCount+1
     private int clickCount;
-    private Font font = ((TestFont)AssetFactory.getAsset("testFont")).font;
+    private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;
     public TestScene(){
-        super(new Vector2i(0,0), new Vector2i(1600,900));
         // 一个player作为子组件
         Player player = new Player();
         addComponent(player);
