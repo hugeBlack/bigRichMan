@@ -2,29 +2,29 @@ package org.dp.components;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.PlayerPicture;
+import org.dp.event.ButtonClickEvent;
 import org.dp.utils.AnimationTimeHelper;
-import org.dp.utils.Time;
 import org.dp.utils.Vector2i;
 import org.dp.view.Component;
-import org.dp.view.Playground;
 import org.dp.view.events.*;
 
 import java.awt.*;
 
-// 这是个例子，点一下玩家图像就往左右移动，然后发出一个PlayerClicked事件
-public class Player extends Component {
+// 这是个例子，点一下图像就往左右移动，然后发出一个PlayerClicked事件
+public class TestComponent extends Component {
     PlayerPicture playerPicture;
     private boolean isOnRight = false;
-    private double timeMoveStarted = 0;
     private boolean isMoveComplete = true;
     private Vector2i startPos;
     private AnimationTimeHelper moveAnimationHelper = null;
 
-    public Player() {
+    public TestComponent() {
         super(new Vector2i(100,50), new Vector2i(0,0));
         playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
         Vector2i size = new Vector2i(playerPicture.img.getWidth(null), playerPicture.img.getHeight(null));
         setHitBoxSize(size);
+        // 设置鼠标在其上时的形状
+        cursorType = Cursor.HAND_CURSOR;
     }
 
 
@@ -62,15 +62,14 @@ public class Player extends Component {
     public boolean onMouseEventMe(MouseEvent e){
         if(e instanceof ClickEvent){
             if(isMoveComplete){
-                emitEvent(new PlayerClickEvent());
+                emitEvent(new ButtonClickEvent());
                 moveAnimationHelper = new AnimationTimeHelper(1000);
                 moveAnimationHelper.start();
                 isMoveComplete = false;
                 startPos = getAbsPosition();
-                timeMoveStarted = Time.getTimeInMs();
             }
         } else if (e instanceof HoverEvent){
-            Playground.get().setCursor(Cursor.HAND_CURSOR);
+            // 鼠标在内部移动时要做的事情
         } else if (e instanceof LeaveEvent){
             System.out.println("LEAVE!");
         }

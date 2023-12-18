@@ -20,7 +20,13 @@ public class AssetFactory {
             product = new PlayerPicture();
         }else if(assetName.equals("fontLib")){
             product = new FontLib();
-        }else{
+        }else if(assetName.equals("mapAssets")) {
+            product = new MapAssets();
+        }else if(assetName.equals("titleSceneAssets")){
+                product = new TitleSceneAssets();
+        } else if(assetName.equals("confirmBoxAssets")){
+            product = new ConfirmBoxAssets();
+        } else{
             throw new RuntimeException("No such product!");
         }
         assetMap.put(assetName, product);

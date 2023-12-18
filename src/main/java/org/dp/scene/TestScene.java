@@ -2,10 +2,16 @@ package org.dp.scene;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
+import org.dp.components.MapComponent;
+import org.dp.event.ButtonClickEvent;
 import org.dp.utils.Vector2i;
 import org.dp.view.ComponentObserver;
-import org.dp.components.Player;
+import org.dp.components.TestComponent;
+import org.dp.view.ConfirmBox;
+import org.dp.view.GameButton;
+import org.dp.view.Playground;
 import org.dp.view.events.ComponentEvent;
+import org.dp.view.events.ConfirmBoxEvent;
 
 import java.awt.*;
 
@@ -14,15 +20,57 @@ public class TestScene extends Scene {
     private int clickCount;
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;
     public TestScene(){
-        // 一个player作为子组件
-        Player player = new Player();
-        addComponent(player);
-        player.registerObserver(new ComponentObserver() {
+        // 一个TestComponent作为子组件
+        TestComponent testComponent = new TestComponent();
+        addComponent(testComponent);
+        MapComponent mapComponent = new MapComponent(new Vector2i(300,300));
+        addComponent(mapComponent);
+        testComponent.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
                 clickCount++;
             }
         });
+
+        ConfirmBox c = new ConfirmBox("先获取左上角的绝对坐标，计算要画的位置，然后在graphics上画对应的图形");
+        GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(300,800), new Vector2i(300,50), "Open ConfirmBox");
+        GameButton backButton = new GameButton(new Vector2i(700,800), new Vector2i(300,50), "Back");
+        buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                if(e instanceof ButtonClickEvent){
+                    addComponent(c);
+                }
+
+            }
+        });
+        addComponent(buttonOpenConfirmBox);
+
+        backButton.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                Playground.get().switchScene(new TitleScene());
+            }
+        });
+        addComponent(backButton);
+
+        c.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                if(e instanceof ConfirmBoxEvent){
+                    ConfirmBoxEvent e1 = (ConfirmBoxEvent) e;
+                    if(e1.getResult()){
+                        System.out.println("OK！");
+                    }else{
+                        System.out.println("Cancel！");
+                    }
+                }
+                removeChildren(c);
+
+            }
+        });
+
+
     }
     @Override
     public void drawMe(Graphics graphics) {

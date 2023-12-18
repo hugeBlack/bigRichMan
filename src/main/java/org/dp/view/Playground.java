@@ -13,6 +13,7 @@ public class Playground extends Component{
     private boolean isClosed = false;
 
     private int currentCursor = 0;
+    private org.dp.view.events.MouseEvent lastMouseEvent = null;
 
     // 单例模式！只允许一个playground存在
     private Playground(){
@@ -37,13 +38,13 @@ public class Playground extends Component{
         canvasFrame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                Component.emitRootMouseEvent(p, new org.dp.view.events.ClickEvent(e.getX(), e.getY()));
+                lastMouseEvent = new org.dp.view.events.ClickEvent(e.getX(), e.getY());
             }
         });
         canvasFrame.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                Component.emitRootMouseEvent(p, new org.dp.view.events.HoverEvent(e.getX(), e.getY()));
+                lastMouseEvent = new org.dp.view.events.HoverEvent(e.getX(), e.getY());
             }
         });
     }
@@ -70,10 +71,17 @@ public class Playground extends Component{
                         throw new RuntimeException(e);
                     }
                     Image offScreenImage = canvasFrame.createImage(1600, 900);     //新建一个图像缓存空间,这里图像大小为800*600
+                    if(lastMouseEvent != null){
+                        Component.emitRootMouseEvent(playground, lastMouseEvent);
+                        lastMouseEvent = null;
+                    }
+
                     Graphics gImage = offScreenImage.getGraphics();  //把它的画笔拿过来,给gImage保存着
                     Component.drawRoot(playground, gImage);
+
                     if(canvasFrame.getCursor().getType() != currentCursor)
                         canvasFrame.setCursor(currentCursor);
+
                     g.drawImage(offScreenImage, 0, 0, null);         //然后一次性显示出来
 
                     if(isClosed())
@@ -98,7 +106,6 @@ public class Playground extends Component{
 
     @Override
     public boolean onMouseEventMe(org.dp.view.events.MouseEvent e) {
-        setCursor(0);
         return true;
     }
 

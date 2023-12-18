@@ -8,16 +8,21 @@ import org.dp.view.events.MouseEvent;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 // 继承了这个类的界面类都是模板模式！
 public abstract class Component {
-    private HashSet<Component> children = new HashSet<>();
-    private HashSet<Component> childrenMouseIn = new HashSet<>();
+    private LinkedList<Component> children = new LinkedList<>();
+    private static Vector2i lastMousePos = new Vector2i(-99999,-99999);
+    private static Component lastHovered = null;
     private boolean isHidden = false;
     private Component parent = null;
     private HashSet<ComponentObserver> observers = new HashSet<>();
     private Vector2i relativePosition = null;
     private Vector2i hitBoxSize = null;
+
+    public int cursorType = 0;
 
     public Vector2i getHitBoxSize() {
         return new Vector2i(hitBoxSize);
@@ -33,7 +38,11 @@ public abstract class Component {
         root.draw(graphics);
     }
     public static void emitRootMouseEvent(Component root, MouseEvent e){
+        Vector2i tmp = new Vector2i(e.x, e.y);
         root.onMouseEvent(e);
+        if(e instanceof HoverEvent){
+            lastMousePos = tmp;
+        }
     }
 
     public Vector2i getRelativePosition() {
@@ -82,29 +91,31 @@ public abstract class Component {
         int orgX = e.x;
         int orgY = e.y;
 
-        for(Component c : children){
-            if(e.getCancelled()) {
-                break;
-            }
-            if(c.inHitBox(orgX, orgY))
+        // 先沿着组件树传播，如果被处理了就停止传播
+        for (Iterator<Component> it = children.descendingIterator(); it.hasNext(); ) {
+            Component c = it.next();
+            if(c.inHitBox(orgX, orgY)){
                 c.onMouseEvent(e);
-        }
-        if(!e.getCancelled() && onMouseEventMe(e))
-            e.setCancelled(true);
-
-        if(!(e instanceof HoverEvent))
-            return;
-
-        for(Component c : children) {
-            if (childrenMouseIn.contains(c) && !c.inHitBox(orgX, orgY)) {
-                c.onMouseEvent(new LeaveEvent(orgX, orgY));
+                if(e.isProcessed()) {
+                    break;
+                }
             }
         }
+        if(e.isProcessed())
+            return;
+        // 没被处理，看看自己能不能处理
+        boolean processed = onMouseEventMe(e);
+        if(processed){
+            e.setProcessed(true);
+            Playground.get().setCursor(this.cursorType);
+        }
 
-        childrenMouseIn.clear();
-        for(Component c : children){
-            if(c.inHitBox(orgX, orgY))
-                childrenMouseIn.add(c);
+
+        // 特别的，如果当前是一个移动事件，而且不是上次移动到的目标，则说明要向目标发出一个移出事件
+        if(processed && e instanceof HoverEvent && lastHovered != this){
+            if(lastHovered !=null)
+                lastHovered.onMouseEventMe(new LeaveEvent(orgX, orgY));
+            lastHovered = this;
         }
     }
 
@@ -115,7 +126,10 @@ public abstract class Component {
 
     public abstract void drawMe(Graphics graphics);
     public void addComponent(Component child){
+        if(children.contains(child))
+            return;
         children.add(child);
+        child.parent = this;
     }
 
     public void registerObserver(ComponentObserver eo){
@@ -157,7 +171,7 @@ public abstract class Component {
                 && y >= relativePosition.y && y < relativePosition.y + hitBoxSize.y;
     }
 
-    public HashSet<Component> getChildren() {
+    public LinkedList<Component> getChildren() {
         return children;
     }
 }

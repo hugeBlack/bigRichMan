@@ -1,11 +1,10 @@
-package org.dp.components;
+package org.dp.view;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
-import org.dp.utils.Time;
+import org.dp.event.ButtonClickEvent;
 import org.dp.utils.Vector2i;
 import org.dp.view.Component;
-import org.dp.view.Playground;
 import org.dp.view.events.*;
 
 import java.awt.*;
@@ -35,7 +34,10 @@ public class GameButton extends Component {
     }
 
     public void setBackgroundColor(Color backgroundColor) {
-        clickedBackgroundColor = new Color((int) (backgroundColor.getRed() *0.5 + 128), (int) (backgroundColor.getGreen()*0.5 + 128), (int) (backgroundColor.getBlue()*0.5 + 128));
+        if(backgroundColor == null)
+            clickedBackgroundColor = new Color(0.0f,0.0f,0.0f, 0.3f);
+        else
+            clickedBackgroundColor = new Color((int) (backgroundColor.getRed() *0.5 + 128), (int) (backgroundColor.getGreen()*0.5 + 128), (int) (backgroundColor.getBlue()*0.5 + 128));
         this.backgroundColor = backgroundColor;
     }
     public Font getFont() {
@@ -62,21 +64,24 @@ public class GameButton extends Component {
     public GameButton(Vector2i p, Vector2i hitBoxSize, String title) {
         super(p, hitBoxSize);
         this.title = title;
+        this.cursorType = Cursor.HAND_CURSOR;
     }
 
     @Override
     public void drawMe(Graphics graphics) {
         Vector2i p = getAbsPosition();
-
+        Vector2i hitBox = this.getHitBoxSize();
         if(isMouseIn){
             graphics.setColor(clickedBackgroundColor);
-        }else{
+            graphics.fillRect(p.x, p.y, hitBox.x, hitBox.y);
+        }else if(backgroundColor != null){
             graphics.setColor(backgroundColor);
+            graphics.fillRect(p.x, p.y, hitBox.x, hitBox.y);
         }
 
-        Vector2i hitBox = this.getHitBoxSize();
 
-        graphics.fillRect(p.x, p.y, hitBox.x, hitBox.y);
+
+
         graphics.setColor(textColor);
         graphics.setFont(font);
         if(!isInitialized){
@@ -95,9 +100,8 @@ public class GameButton extends Component {
     @Override
     public boolean onMouseEventMe(MouseEvent e){
         if(e instanceof ClickEvent){
-            emitEvent(new PlayerClickEvent());
+            emitEvent(new ButtonClickEvent());
         } else if (e instanceof HoverEvent){
-            Playground.get().setCursor(Cursor.HAND_CURSOR);
             isMouseIn = true;
         } else if (e instanceof LeaveEvent){
             isMouseIn = false;
