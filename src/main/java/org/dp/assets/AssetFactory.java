@@ -26,7 +26,12 @@ public class AssetFactory {
                 product = new TitleSceneAssets();
         } else if(assetName.equals("confirmBoxAssets")){
             product = new ConfirmBoxAssets();
-        } else{
+        } else if(assetName.equals("diceAssets")){
+            product = new DiceAssets();
+        } else if(assetName.equals("testAssets")){
+            product = new TestComponentAssets();
+        }
+        else{
             throw new RuntimeException("No such product!");
         }
         assetMap.put(assetName, product);

@@ -2,7 +2,6 @@ package org.dp;
 
 import org.dp.scene.TitleScene;
 import org.dp.view.Playground;
-import org.dp.scene.TestScene;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {

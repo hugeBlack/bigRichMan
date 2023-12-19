@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.locks.Lock;
 
 // 继承了这个类的界面类都是模板模式！
 public abstract class Component {
@@ -23,6 +24,8 @@ public abstract class Component {
     private Vector2i hitBoxSize = null;
 
     public int cursorType = 0;
+    private LinkedList<Component> componentsToBeRemoved = new LinkedList<>();
+    private LinkedList<Component> componentsToBeAdded = new LinkedList<>();
 
     public Vector2i getHitBoxSize() {
         return new Vector2i(hitBoxSize);
@@ -68,14 +71,23 @@ public abstract class Component {
     }
 
     public void removeChildren(Component component){
+        // 先加进来，下一帧再处理
         if(children.contains(component))
-            children.remove(component);
+            componentsToBeRemoved.add(component);
         else
             throw new RuntimeException("Child not found");
     }
 
     private void draw(Graphics graphics){
         // 迭代器模式！迭代地绘制整个图形界面
+        for(Component c : componentsToBeRemoved){
+            children.remove(c);
+        }
+        for(Component c : componentsToBeAdded){
+            children.add(c);
+        }
+        componentsToBeRemoved.clear();
+        componentsToBeAdded.clear();
         if(!isHidden)
             drawMe(graphics);
         for(Component c : children){
@@ -128,7 +140,7 @@ public abstract class Component {
     public void addComponent(Component child){
         if(children.contains(child))
             return;
-        children.add(child);
+        componentsToBeAdded.add(child);
         child.parent = this;
     }
 

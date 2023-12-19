@@ -2,6 +2,7 @@ package org.dp.components;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.PlayerPicture;
+import org.dp.assets.TestComponentAssets;
 import org.dp.event.ButtonClickEvent;
 import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
@@ -12,7 +13,7 @@ import java.awt.*;
 
 // 这是个例子，点一下图像就往左右移动，然后发出一个PlayerClicked事件
 public class TestComponent extends Component {
-    PlayerPicture playerPicture;
+    TestComponentAssets playerPicture;
     private boolean isOnRight = false;
     private boolean isMoveComplete = true;
     private Vector2i startPos;
@@ -20,8 +21,8 @@ public class TestComponent extends Component {
 
     public TestComponent() {
         super(new Vector2i(100,50), new Vector2i(0,0));
-        playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
-        Vector2i size = new Vector2i(playerPicture.img.getWidth(null), playerPicture.img.getHeight(null));
+        playerPicture = (TestComponentAssets) AssetFactory.getAsset("testAssets");
+        Vector2i size = new Vector2i(100, 100);
         setHitBoxSize(size);
         // 设置鼠标在其上时的形状
         cursorType = Cursor.HAND_CURSOR;
@@ -55,7 +56,7 @@ public class TestComponent extends Component {
 
 
         Vector2i p = getAbsPosition();
-        graphics.drawImage(playerPicture.img, p.x, p.y, null);
+        graphics.drawImage(playerPicture.img, p.x, p.y, 100, 100, null);
     }
 
     @Override

@@ -2,8 +2,10 @@ package org.dp.scene;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
+import org.dp.components.Dice;
 import org.dp.components.MapComponent;
 import org.dp.event.ButtonClickEvent;
+import org.dp.logic.GameSystem;
 import org.dp.utils.Vector2i;
 import org.dp.view.ComponentObserver;
 import org.dp.components.TestComponent;
@@ -15,16 +17,14 @@ import org.dp.view.events.ConfirmBoxEvent;
 
 import java.awt.*;
 
-public class TestScene extends Scene {
+public class GameScene extends Scene {
     // 这是个例子，图上有一个玩家，点一下玩家图像就左右移动，然后发出一个PlayerClicked事件，被observer接收，然后clickCount+1
     private int clickCount;
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;
-    public TestScene(){
+    public GameScene(){
         // 一个TestComponent作为子组件
         TestComponent testComponent = new TestComponent();
         addComponent(testComponent);
-        MapComponent mapComponent = new MapComponent(new Vector2i(300,300));
-        addComponent(mapComponent);
         testComponent.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
@@ -32,28 +32,8 @@ public class TestScene extends Scene {
             }
         });
 
-        ConfirmBox c = new ConfirmBox("先获取左上角的绝对坐标，计算要画的位置，然后在graphics上画对应的图形");
-        GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(300,800), new Vector2i(300,50), "Open ConfirmBox");
-        GameButton backButton = new GameButton(new Vector2i(700,800), new Vector2i(300,50), "Back");
-        buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                if(e instanceof ButtonClickEvent){
-                    addComponent(c);
-                }
-
-            }
-        });
-        addComponent(buttonOpenConfirmBox);
-
-        backButton.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new TitleScene());
-            }
-        });
-        addComponent(backButton);
-
+        ConfirmBox c = new ConfirmBox("这个提示框会覆盖整个游戏界面");
+        // 添加监视者来获取用户的选择
         c.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
@@ -65,10 +45,43 @@ public class TestScene extends Scene {
                         System.out.println("Cancel！");
                     }
                 }
-                removeChildren(c);
+            }
+        });
+
+        GameButton moveButton = new GameButton(new Vector2i(300,700), new Vector2i(300,50), "Move Player");
+        GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(300,800), new Vector2i(300,50), "Open ConfirmBox");
+        GameButton backButton = new GameButton(new Vector2i(700,800), new Vector2i(300,50), "Back");
+        buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                if(e instanceof ButtonClickEvent){
+                    c.show();
+                }
 
             }
         });
+        moveButton.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                if(e instanceof ButtonClickEvent){
+                    GameSystem.get().performPlayerMove();
+                }
+            }
+        });
+
+        addComponent(buttonOpenConfirmBox);
+        addComponent(moveButton);
+
+        backButton.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                Playground.get().switchScene(new TitleScene());
+            }
+        });
+        addComponent(backButton);
+
+        Dice dice = new Dice(new Vector2i(600, 600));
+        addComponent(dice);
 
 
     }

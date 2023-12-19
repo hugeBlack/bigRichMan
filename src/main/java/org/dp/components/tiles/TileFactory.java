@@ -21,13 +21,13 @@ public class TileFactory {
 
     }
 
-    public TileComponent getTile(TileType tileType, Vector2i position){
+    public TileComponent getTile(TileType tileType, Vector2i position, int price){
         switch (tileType){
             case START -> {
                 return new StartTileComponent(position);
             }
             case PLACE -> {
-                return new PlaceTileComponent(position, 999);
+                return new PlaceTileComponent(position, price);
             }
             default -> throw new RuntimeException("Unknown tile type");
         }

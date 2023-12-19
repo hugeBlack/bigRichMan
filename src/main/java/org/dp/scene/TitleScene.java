@@ -3,6 +3,8 @@ package org.dp.scene;
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
 import org.dp.assets.TitleSceneAssets;
+import org.dp.logic.GameSystem;
+import org.dp.logic.IGameSystem;
 import org.dp.view.GameButton;
 import org.dp.utils.Vector2i;
 import org.dp.view.ComponentObserver;
@@ -27,7 +29,9 @@ public class TitleScene extends Scene {
         startButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new TestScene());
+                IGameSystem gameSystem = GameSystem.get();
+                gameSystem.init();
+                Playground.get().switchScene(gameSystem.getScene());
             }
         });
 
