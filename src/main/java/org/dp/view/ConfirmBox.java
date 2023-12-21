@@ -21,7 +21,8 @@ public class ConfirmBox extends Component{
     private Vector2i windowPos;
     private java.util.List<String> splitInfo;
     private String info;
-    private int ascent;
+    private int ascent;// 字体高度
+
     private ConfirmBox me;
     public ConfirmBox(String info) {
         super(new Vector2i(0,0), new Vector2i(0,0));

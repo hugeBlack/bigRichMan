@@ -22,7 +22,6 @@ public class PlayersNumScene extends Scene{
     private GameButton prevButton;
     private Vector<GameButton> numButtons=new Vector<>();
     private int playerNum;
-    private SelectPlayerScene selectPlayerScene;
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
@@ -41,10 +40,9 @@ prevButton=new GameButton(new Vector2i(300, 700), new Vector2i(100,100), "返回
                     gameSystem.init();
                     gameSystem.setPlayerNum(playerNum);
 
-                    if(selectPlayerScene==null) {
-                        selectPlayerScene = new SelectPlayerScene();
+
+                      SelectPlayerScene  selectPlayerScene = new SelectPlayerScene();
                         selectPlayerScene.setPlayerNumScene(PlayersNumScene.this);
-                    }
                     Playground.get().switchScene(selectPlayerScene);
                 }
             }

@@ -13,11 +13,11 @@ import java.awt.*;
 
 // 这是个自定义组件的例子，点一下图像就往左右移动，然后发出一个PlayerClicked事件
 public class TestComponent extends Component {
-    TestComponentAssets playerPicture;
+    TestComponentAssets playerPicture;//通过assets获得图片
     private boolean isOnRight = false;
     private boolean isMoveComplete = true;
-    private Vector2i startPos;
-    private AnimationTimeHelper moveAnimationHelper = null;
+    private Vector2i startPos;//起点
+    private AnimationTimeHelper moveAnimationHelper = null;// 动画帮助类
 
     public TestComponent() {
         super(new Vector2i(100,50), new Vector2i(0,0));

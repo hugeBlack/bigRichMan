@@ -77,6 +77,9 @@ public abstract class Component {
         else
             throw new RuntimeException("Child not found");
     }
+    public void repaint(){
+        Playground.get().repaint();
+    }
 
     private void draw(Graphics graphics){
         // 迭代器模式！迭代地绘制整个图形界面

@@ -30,8 +30,9 @@ public class AssetFactory {
             product = new DiceAssets();
         } else if(assetName.equals("testAssets")){
             product = new TestComponentAssets();
-        }
-        else{
+        } else if (assetName.equals("playerInfo")) {
+            product=new PlayerInfo();
+        } else{
             throw new RuntimeException("No such product!");
         }
         assetMap.put(assetName, product);
