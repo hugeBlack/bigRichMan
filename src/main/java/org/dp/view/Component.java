@@ -14,16 +14,16 @@ import java.util.concurrent.locks.Lock;
 
 // 继承了这个类的界面类都是模板模式！
 public abstract class Component {
-    private LinkedList<Component> children = new LinkedList<>();
-    private static Vector2i lastMousePos = new Vector2i(-99999,-99999);
-    private static Component lastHovered = null;
+    private LinkedList<Component> children = new LinkedList<>();//子结点
+    private static Vector2i lastMousePos = new Vector2i(-99999,-99999);//鼠标位置
+    private static Component lastHovered = null;//上次鼠标停留的组件
     private boolean isHidden = false;
     private Component parent = null;
     private HashSet<ComponentObserver> observers = new HashSet<>();
     private Vector2i relativePosition = null;
     private Vector2i hitBoxSize = null;
 
-    public int cursorType = 0;
+    public int cursorType = 0;//鼠标样式
     private LinkedList<Component> componentsToBeRemoved = new LinkedList<>();
     private LinkedList<Component> componentsToBeAdded = new LinkedList<>();
 

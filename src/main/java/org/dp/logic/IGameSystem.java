@@ -14,4 +14,8 @@ public interface IGameSystem {
     GameScene getScene();
     void init();
     void performPlayerMove();
+
+    void setPlayerNum(int i);
+
+    Integer getPlayerNum();
 }

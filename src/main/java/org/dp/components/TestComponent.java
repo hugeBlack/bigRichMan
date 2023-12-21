@@ -11,7 +11,7 @@ import org.dp.view.events.*;
 
 import java.awt.*;
 
-// 这是个例子，点一下图像就往左右移动，然后发出一个PlayerClicked事件
+// 这是个自定义组件的例子，点一下图像就往左右移动，然后发出一个PlayerClicked事件
 public class TestComponent extends Component {
     TestComponentAssets playerPicture;
     private boolean isOnRight = false;

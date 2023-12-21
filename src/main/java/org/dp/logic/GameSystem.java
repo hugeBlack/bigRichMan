@@ -12,6 +12,16 @@ public class GameSystem implements IGameSystem{
     private Player currentPlayer;
 
     private GameScene gameScene;
+    private int   playerNum;
+    @Override
+    public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
+    }
+    @Override
+    public Integer getPlayerNum()
+    {
+        return playerNum;
+    }
     private GameMap gameMap;
 
     private int lastDicePoint = -1;

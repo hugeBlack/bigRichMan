@@ -6,6 +6,7 @@ import org.dp.components.Dice;
 import org.dp.components.MapComponent;
 import org.dp.event.ButtonClickEvent;
 import org.dp.logic.GameSystem;
+import org.dp.logic.IGameSystem;
 import org.dp.utils.Vector2i;
 import org.dp.view.ComponentObserver;
 import org.dp.components.TestComponent;
@@ -20,19 +21,19 @@ import java.awt.*;
 public class GameScene extends Scene {
     // 这是个例子，图上有一个玩家，点一下玩家图像就左右移动，然后发出一个PlayerClicked事件，被observer接收，然后clickCount+1
     private int clickCount;
-    private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;
+    private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
     public GameScene(){
         // 一个TestComponent作为子组件
         TestComponent testComponent = new TestComponent();
         addComponent(testComponent);
-        testComponent.registerObserver(new ComponentObserver() {
+        testComponent.registerObserver(new ComponentObserver() {//通过component进行监视
             @Override
             public void onEvent(ComponentEvent e) {
                 clickCount++;
             }
         });
 
-        ConfirmBox c = new ConfirmBox("这个提示框会覆盖整个游戏界面");
+        ConfirmBox c = new ConfirmBox("这是一个确认框哦" );
         // 添加监视者来获取用户的选择
         c.registerObserver(new ComponentObserver() {
             @Override
@@ -92,6 +93,6 @@ public class GameScene extends Scene {
         Vector2i p = getAbsPosition();
         Vector2i drawPoint = p.add(20,200);
         graphics.setFont(font);
-        graphics.drawString("点击了" + clickCount + "次", drawPoint.x, drawPoint.y);
+        graphics.drawString("点击了" + clickCount + "次"+"当前玩家人数为"+GameSystem.get().getPlayerNum(), drawPoint.x, drawPoint.y);
     }
 }
