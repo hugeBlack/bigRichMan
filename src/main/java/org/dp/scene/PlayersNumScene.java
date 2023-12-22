@@ -13,10 +13,10 @@ import org.dp.view.Playground;
 import org.dp.view.events.ComponentEvent;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.Vector;
 
 public class PlayersNumScene extends Scene{
+    private PlayerNumButtonFactory playerNumButtonFactory = new DefaultPlayerNumButtonFactory();   //抽象工厂模式
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
     private GameButton nextButton;
@@ -60,11 +60,12 @@ public class PlayersNumScene extends Scene{
         });
         for(int i=1;i<=4;i++)
         {
-            GameButton button=new GameButton(new Vector2i((i-1)*300+200, 400), new Vector2i(200,200), i+"");
-            button.setBackgroundColor(Color.white);
-            button.setTextColor(Color.BLACK);
-            Font playerNumberFont = ((FontLib)AssetFactory.getAsset("fontLib")).playerNumberButton;//编辑字体
-            button.setFont(playerNumberFont);     //主要是为了设置字体大小
+            GameButton button= playerNumButtonFactory.createPlayerButton(new Vector2i((i-1)*300+200,400),i+"");
+            //此处改用抽象工厂模式来创建玩家人数按钮
+            //button.setBackgroundColor(Color.white);
+            //button.setTextColor(Color.BLACK);
+            //Font playerNumberFont = ((FontLib)AssetFactory.getAsset("fontLib")).playerNumberButton;//编辑字体
+            //button.setFont(playerNumberFont);     //主要是为了设置字体大小
             button.registerObserver(new ComponentObserver() {    //人数按钮监听器
                 @Override
                 public void onEvent(ComponentEvent e) {

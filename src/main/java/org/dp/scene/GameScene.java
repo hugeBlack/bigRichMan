@@ -4,8 +4,8 @@ import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
 import org.dp.assets.PlayerInfo;
 import org.dp.assets.PlayerPicture;
-import org.dp.components.Dice;
-import org.dp.components.OneDice;
+import org.dp.components.DiceStrategy;
+import org.dp.components.OneDiceStrategy;
 import org.dp.event.ButtonClickEvent;
 import org.dp.logic.GameSystem;
 import org.dp.utils.Vector2i;
@@ -29,17 +29,17 @@ public class GameScene extends Scene {
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
     private void alterCurrentPlayer(){
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
-        dice.setStatus(currentPlayer);
+        diceStrategy.setStatus(currentPlayer);
         GameSystem.get().setCurrentPlayer(currentPlayer);
     }
 
-    Dice dice;
+    DiceStrategy diceStrategy;
     public GameScene(){
         // 一个TestComponent作为子组件
         TestComponent testComponent = new TestComponent();
         addComponent(testComponent);
-        dice = new OneDice(new Vector2i(600, 600));
-        addComponent((Component) dice);
+        diceStrategy = new OneDiceStrategy(new Vector2i(600, 600));
+        addComponent((Component) diceStrategy);
         testComponent.registerObserver(new ComponentObserver() {//通过component进行监视
             @Override
             public void onEvent(ComponentEvent e) {

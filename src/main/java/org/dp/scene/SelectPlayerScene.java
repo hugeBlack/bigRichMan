@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SelectPlayerScene extends Scene {
+    private SelectPlayerElementFactory elementFactory = new DefaultSelectPlayerElementFactory();  //抽象工厂模式
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
@@ -62,7 +63,7 @@ public class SelectPlayerScene extends Scene {
             @Override
             public void onEvent(ComponentEvent e) {
                 if (e instanceof ButtonClickEvent) {
-                    Playground.get().switchScene(playerNumScene);
+                    Playground.get().switchScene(new PlayersNumScene());
                 }
             }
         });
@@ -70,12 +71,17 @@ public class SelectPlayerScene extends Scene {
         addComponent(prevButton);
         actorSize = playerPicture.img.length;
 
+        int playerNum = 0;
+        for(int i = 0;i < GameSystem.get().getPlayerNum();i++)
+            playerNum ++;
+        int maxPlayerNum = 4;
         //初始化选择的角色
         for(int i=0;i<GameSystem.get().getPlayerNum();i++)
         {
             currentChoose[i]=i;
-            leftButton[i] = new GameButton(new Vector2i(100+i*300 , 650 ), new Vector2i(50, 50), "<");
-            rightButton[i] = new GameButton(new Vector2i(200+i*300 , 650 ), new Vector2i(50, 50), ">");
+            //此处改用抽象工厂模式来创建左右按钮
+            leftButton[i] = elementFactory.createLeftButton(new Vector2i(80 + i * 300 + (maxPlayerNum - playerNum) * 200, 650));
+            rightButton[i] = elementFactory.createRightButton(new Vector2i(200 + i * 300 + (maxPlayerNum - playerNum) * 200, 650));
 
 
             addComponent(leftButton[i]);
@@ -182,8 +188,12 @@ public class SelectPlayerScene extends Scene {
         graphics.drawString("选择角色", drawPoint.x, drawPoint.y);
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.setFont(font2);
+        int playerNum = 0;
+        for(int i = 0;i < GameSystem.get().getPlayerNum();i++)
+            playerNum ++;
+        int maxPlayerNum = 4;
         for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
-            Vector2i infoPoint = p.add(100 + i * 300, 300);
+            Vector2i infoPoint = p.add(100 + i * 300 + (maxPlayerNum - playerNum) * 200, 300);
             graphics.drawString("人物信息", infoPoint.x, infoPoint.y+75);
             graphics.drawString("玩家" + (i + 1), infoPoint.x, infoPoint.y +150);
             graphics.drawString("姓名：" + playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y + 200);
