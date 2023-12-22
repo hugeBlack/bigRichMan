@@ -5,12 +5,11 @@ import org.dp.assets.FontLib;
 import org.dp.assets.PlayerInfo;
 import org.dp.assets.PlayerPicture;
 import org.dp.components.Dice;
-import org.dp.components.MapComponent;
+import org.dp.components.OneDice;
 import org.dp.event.ButtonClickEvent;
 import org.dp.logic.GameSystem;
-import org.dp.logic.IGameSystem;
-import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
+import org.dp.view.Component;
 import org.dp.view.ComponentObserver;
 import org.dp.components.TestComponent;
 import org.dp.view.ConfirmBox;
@@ -39,8 +38,8 @@ public class GameScene extends Scene {
         // 一个TestComponent作为子组件
         TestComponent testComponent = new TestComponent();
         addComponent(testComponent);
-        dice = new Dice(new Vector2i(600, 600));
-        addComponent(dice);
+        dice = new OneDice(new Vector2i(600, 600));
+        addComponent((Component) dice);
         testComponent.registerObserver(new ComponentObserver() {//通过component进行监视
             @Override
             public void onEvent(ComponentEvent e) {

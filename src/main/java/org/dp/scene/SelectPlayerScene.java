@@ -1,9 +1,6 @@
 package org.dp.scene;
 
-import org.dp.assets.AssetFactory;
-import org.dp.assets.FontLib;
-import org.dp.assets.PlayerInfo;
-import org.dp.assets.PlayerPicture;
+import org.dp.assets.*;
 import org.dp.event.ButtonClickEvent;
 import org.dp.logic.GameSystem;
 import org.dp.utils.Vector2i;
@@ -16,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SelectPlayerScene extends Scene {
+    private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
     private int actorSize;//可供选择的角色的数量
@@ -48,8 +46,8 @@ public class SelectPlayerScene extends Scene {
 
     public SelectPlayerScene() {
 
-        nextButton = new GameButton(new Vector2i(1400, 700), new Vector2i(100, 100), "下一步");
-        prevButton = new GameButton(new Vector2i(300, 700), new Vector2i(100, 100), "返回");
+        prevButton=new GameButton(new Vector2i(1150, 800), new Vector2i(100,60), "返回");
+        nextButton=new GameButton(new Vector2i(1350, 800), new Vector2i(100,60), "下一步");
 
         nextButton.registerObserver(new ComponentObserver() {
             @Override
@@ -76,8 +74,8 @@ public class SelectPlayerScene extends Scene {
         for(int i=0;i<GameSystem.get().getPlayerNum();i++)
         {
             currentChoose[i]=i;
-            leftButton[i] = new GameButton(new Vector2i(100+i*300 , 700 ), new Vector2i(50, 50), "<");
-            rightButton[i] = new GameButton(new Vector2i(300+i*300 , 700 ), new Vector2i(50, 50), ">");
+            leftButton[i] = new GameButton(new Vector2i(100+i*300 , 650 ), new Vector2i(50, 50), "<");
+            rightButton[i] = new GameButton(new Vector2i(200+i*300 , 650 ), new Vector2i(50, 50), ">");
 
 
             addComponent(leftButton[i]);
@@ -103,7 +101,7 @@ public class SelectPlayerScene extends Scene {
                 }
             }
         });
-if(GameSystem.get().getPlayerNum()>1)
+        if(GameSystem.get().getPlayerNum()>1)
         {
             leftButton[1].registerObserver(new ComponentObserver() {//如果单击“向左”按钮
                 @Override
@@ -180,18 +178,19 @@ if(GameSystem.get().getPlayerNum()>1)
         Vector2i p = getAbsPosition();
         Vector2i drawPoint = p.add(100, 200);
         graphics.setFont(font);
+        graphics.drawImage(assets.background, p.x, p.y, null);
         graphics.drawString("选择角色", drawPoint.x, drawPoint.y);
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.setFont(font2);
         for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
             Vector2i infoPoint = p.add(100 + i * 300, 300);
-            graphics.drawString("人物信息", infoPoint.x, infoPoint.y+25);
-            graphics.drawString("玩家" + (i + 1), infoPoint.x, infoPoint.y +100);
-            graphics.drawString("姓名：" + playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y + 150);
-            graphics.drawString("金币数：" + playerInfo.getPlayerInfo(currentChoose[i]).coinNum, infoPoint.x, infoPoint.y + 200);
-            graphics.drawString("卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardNum, infoPoint.x, infoPoint.y + 250);
+            graphics.drawString("人物信息", infoPoint.x, infoPoint.y+75);
+            graphics.drawString("玩家" + (i + 1), infoPoint.x, infoPoint.y +150);
+            graphics.drawString("姓名：" + playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y + 200);
+            graphics.drawString("金币数：" + playerInfo.getPlayerInfo(currentChoose[i]).coinNum, infoPoint.x, infoPoint.y + 250);
+            graphics.drawString("卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardNum, infoPoint.x, infoPoint.y + 300);
 
-            graphics.drawImage(playerPicture.img[currentChoose[i]], infoPoint.x, infoPoint.y - 100, 100, 100, null);
+            graphics.drawImage(playerPicture.img[currentChoose[i]], infoPoint.x, infoPoint.y - 50, 100, 100, null);
         }
     }
 }

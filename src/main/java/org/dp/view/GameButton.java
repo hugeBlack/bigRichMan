@@ -19,6 +19,7 @@ public class GameButton extends Component {
     private Color backgroundColor = Color.blue;
     private Color clickedBackgroundColor = new Color((int) (backgroundColor.getRed() *0.5 + 128), (int) (backgroundColor.getGreen()*0.5 + 128), (int) (backgroundColor.getBlue()*0.5 + 128));
     private Color textColor = Color.WHITE;
+    private Color borderColor = Color.BLACK;    //用于存储按钮边框颜色
     private Font font = ((FontLib) AssetFactory.getAsset("fontLib")).titleButtonText;
 
     public Color getTextColor() {
@@ -59,7 +60,13 @@ public class GameButton extends Component {
     }
 
     private String title;
+    public Color getBorderColor() {
+        return borderColor;
+    }
 
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
 
     public GameButton(Vector2i p, Vector2i hitBoxSize, String title) {
         super(p, hitBoxSize);
@@ -79,6 +86,10 @@ public class GameButton extends Component {
             graphics.fillRect(p.x, p.y, hitBox.x, hitBox.y);
         }
 
+        // 设置边框颜色
+        graphics.setColor(borderColor);
+        graphics.drawRect(p.x, p.y, hitBox.x, hitBox.y);
+
         graphics.setColor(textColor);
         graphics.setFont(font);
         if(!isInitialized){
@@ -91,6 +102,7 @@ public class GameButton extends Component {
         graphics.drawString(title, p.x + hitBox.x/2 + titleRelativePos.x, p.y + hitBox.y / 2 + titleRelativePos.y + ascent);
 
     }
+
 
 
 
