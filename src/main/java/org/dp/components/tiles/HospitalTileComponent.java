@@ -7,19 +7,18 @@ import org.dp.utils.Vector2i;
 
 import java.awt.*;
 
-public class PlaceTileComponent extends TileComponent{
+public class HospitalTileComponent extends TileComponent{
     private boolean isInitialized = false;
     private Vector2i titleRelativePos = null;
-    private String title="123";
+    private String title="医院";
     private String Price;
-    private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).placePriceFont;
-    private Image img = ((MapAssets) AssetFactory.getAsset("mapAssets")).placeTile;
+    private Font font = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
+    private Image img = ((MapAssets) AssetFactory.getAsset("mapAssets")).hospitalTile;
 
     private int ascent;
-    public PlaceTileComponent(Vector2i p, int price,String title) {
+    public HospitalTileComponent(Vector2i p, int price) {
         super(p);
-        Price = "$ " + price;
-        this.title= title;
+        Price ="停"+ price+"天";
     }
 
     @Override
@@ -40,3 +39,4 @@ public class PlaceTileComponent extends TileComponent{
         graphics.drawString(title, p.x + hitBox.x/2 + titleRelativePos.x, p.y  + titleRelativePos.y + ascent);
     }
 }
+
