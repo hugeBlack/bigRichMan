@@ -49,13 +49,15 @@ public class MapBuilder {
                 int objY =Integer.parseInt(object1.getString("y")) ;
                 if(objId==1){
                     Tile tile1 = new Tile();
-                    StartTileComponent startTileComponent = (StartTileComponent) tileFactory.getTile(TileFactory.TileType.START, new Vector2i(200,200), 0);
+                    StartTileComponent startTileComponent = (StartTileComponent) tileFactory.getTile(TileFactory.TileType.START,
+                            new Vector2i(200,200), 0);
                     tile1.component = startTileComponent;
                     ans.firstTile = tile1;
                     prev=tile1;
                 }
                 else if(objId<objs.size()){
-                    PlaceTileComponent placeTileComponent1 = (PlaceTileComponent) tileFactory.getTile(TileFactory.TileType.PLACE, new Vector2i(100,200), 1);
+                    PlaceTileComponent placeTileComponent1 = (PlaceTileComponent) tileFactory.getTile(TileFactory.TileType.PLACE,
+                            new Vector2i(100,200), 1);
                     Tile tile2 = new Tile();
                     tile2.component = placeTileComponent1;
                     prev.next = tile2;

@@ -18,4 +18,7 @@ public interface IGameSystem {
     void setPlayerNum(int i);
 
     Integer getPlayerNum();
+    void setActorChoose(int[] currentChoose);
+    int[] getActorChoose();
+    public void setCurrentPlayer(int type);
 }

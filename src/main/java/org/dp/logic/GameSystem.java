@@ -10,9 +10,14 @@ public class GameSystem implements IGameSystem{
 
     private static GameSystem instance = null;
     private Player currentPlayer;
-
+private Player players[] = new Player[4];
     private GameScene gameScene;
     private int   playerNum;
+
+    public void setCurrentPlayer(int type) {
+        this.currentPlayer = players[type];
+    }
+
     @Override
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
@@ -71,13 +76,28 @@ public class GameSystem implements IGameSystem{
     public void init() {
         gameScene = new GameScene();
 
-
-        MapBuilder mapBuilder = new MapBuilder("some json");
+        MapBuilder mapBuilder = new MapBuilder("assets/1.json", new Vector2i(0,0));
         GameMap gameMap= mapBuilder.build(new Vector2i(300,300));
         this.gameMap = gameMap;
         gameScene.addComponent(gameMap.mapComponent);
-        currentPlayer = new Player(gameMap.firstTile, 0);
-        gameScene.addComponent(currentPlayer.playerComponent );
+
+    }
+    int[] currentChoose;
+    @Override
+    public void setActorChoose(int[] currentChoose)
+    {
+        this.currentChoose=currentChoose;
+        for(int i=0;i<playerNum;i++)
+        {
+            players[i] = new Player(gameMap.firstTile, currentChoose[i]);
+            gameScene.addComponent(players[i].playerComponent );
+        }
+        this.currentPlayer = players[currentChoose[0]];
+    }
+    @Override
+    public int[] getActorChoose()
+    {
+        return currentChoose;
     }
 
 

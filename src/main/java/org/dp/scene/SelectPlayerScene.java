@@ -36,7 +36,6 @@ public class SelectPlayerScene extends Scene {
                 count++;
             }
         }
-        System.out.println(count+" "+num);
         if(count>=2)
             return true;
         return false;
@@ -56,6 +55,7 @@ public class SelectPlayerScene extends Scene {
             @Override
             public void onEvent(ComponentEvent e) {
                 if (e instanceof ButtonClickEvent) {
+                    GameSystem.get().setActorChoose(currentChoose);
                     Playground.get().switchScene(GameSystem.get().getScene());
                 }
             }
@@ -183,16 +183,15 @@ if(GameSystem.get().getPlayerNum()>1)
         graphics.drawString("选择角色", drawPoint.x, drawPoint.y);
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.setFont(font2);
-        for(int i=0;i<GameSystem.get().getPlayerNum();i++)
-        {
-            Vector2i infoPoint = p.add(100+i*300, 300);
-            graphics.drawString("玩家"+(i+1), infoPoint.x, infoPoint.y-50);
-        graphics.drawString("人物信息", infoPoint.x, infoPoint.y);
-        graphics.drawString("姓名："+ playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y+50);
-        graphics.drawString("金币数："+ playerInfo.getPlayerInfo(currentChoose[i]).coinNum, infoPoint.x, infoPoint.y+100);
-        graphics.drawString("卡牌数："+ playerInfo.getPlayerInfo(currentChoose[i]).cardNum, infoPoint.x, infoPoint.y+150);
+        for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
+            Vector2i infoPoint = p.add(100 + i * 300, 300);
+            graphics.drawString("人物信息", infoPoint.x, infoPoint.y+25);
+            graphics.drawString("玩家" + (i + 1), infoPoint.x, infoPoint.y +100);
+            graphics.drawString("姓名：" + playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y + 150);
+            graphics.drawString("金币数：" + playerInfo.getPlayerInfo(currentChoose[i]).coinNum, infoPoint.x, infoPoint.y + 200);
+            graphics.drawString("卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardNum, infoPoint.x, infoPoint.y + 250);
 
-        graphics.drawImage(playerPicture.img[currentChoose[i]], infoPoint.x, infoPoint.y-100, 100, 100, null);
+            graphics.drawImage(playerPicture.img[currentChoose[i]], infoPoint.x, infoPoint.y - 100, 100, 100, null);
         }
-        }
+    }
 }

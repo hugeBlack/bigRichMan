@@ -79,9 +79,6 @@ public class GameButton extends Component {
             graphics.fillRect(p.x, p.y, hitBox.x, hitBox.y);
         }
 
-
-
-
         graphics.setColor(textColor);
         graphics.setFont(font);
         if(!isInitialized){
