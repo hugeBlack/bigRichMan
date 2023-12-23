@@ -88,8 +88,8 @@ public class OneDiceStrategy extends Component implements DiceStrategy {
             graphics.drawImage(diceAssets.diceImage[lastPoint - 1], p.x, p.y, 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                lastPoint = gameSystem.getNextDicePoint();    //这里获取骰子的点数并展示出来
                 ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
             }
         }

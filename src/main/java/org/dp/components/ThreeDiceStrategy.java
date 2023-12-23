@@ -93,26 +93,24 @@ public class ThreeDiceStrategy extends Component implements DiceStrategy {
             Vector2i p = getAbsPosition();
             graphics.drawImage(diceAssets1.diceImage[lastPoint1 - 1], p.x,p.y, 64,64,null);
             graphics.drawImage(diceAssets2.diceImage[lastPoint2 - 1], p.x+64,p.y, 64,64,null);
-            graphics.drawImage(diceAssets2.diceImage[lastPoint3 - 1], p.x+128,p.y, 64,64,null);
+            graphics.drawImage(diceAssets3.diceImage[lastPoint3 - 1], p.x+128,p.y, 64,64,null);
         }
         else {
             Vector2i p = getAbsPosition();
             double nowProgress = animationTimeHelper.getBezierProgress();
             if (nowProgress > lastProgress + 0.05) {
-                lastPoint1 = getRandomDice1Point();
-                lastPoint2 = getRandomDice2Point();
-                lastPoint3 = getRandomDice3Point();
+                getRandomDice1Point();
+                getRandomDice2Point();
+                getRandomDice3Point();
                 lastProgress += 0.05;
             }
             graphics.drawImage(diceAssets1.diceImage[lastPoint1 - 1], p.x, p.y, 64, 64, null);
             graphics.drawImage(diceAssets2.diceImage[lastPoint2 - 1], p.x + 64, p.y , 64, 64, null);
-            graphics.drawImage(diceAssets2.diceImage[lastPoint3 - 1], p.x + 128, p.y , 64, 64, null);
+            graphics.drawImage(diceAssets3.diceImage[lastPoint3 - 1], p.x + 128, p.y , 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                lastPoint1 = gameSystem.getNextDicePoint();    //这里获取骰子的点数并展示出来
-                lastPoint2 = gameSystem.getNextDicePoint();
-                lastPoint3 = gameSystem.getNextDicePoint();
                 ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
             }
         }

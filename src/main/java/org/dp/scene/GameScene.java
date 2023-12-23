@@ -62,6 +62,7 @@ if(currentPlayer==0)
                     }else{
                         System.out.println("Cancel！");
                     }
+
                 }
             }
         });

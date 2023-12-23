@@ -47,8 +47,12 @@ private Player players[] = new Player[4];
 
     @Override
     public int getNextDicePoint() {
-        lastDicePoint = (int)(Math.random() * 6) + 1;
         return lastDicePoint;
+    }
+    @Override
+    public void setNextDicePoint(int i)
+    {
+        lastDicePoint=i;
     }
 
     @Override

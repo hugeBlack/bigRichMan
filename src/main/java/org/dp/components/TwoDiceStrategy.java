@@ -98,9 +98,8 @@ public class TwoDiceStrategy extends Component implements DiceStrategy {
             graphics.drawImage(diceAssets2.diceImage[lastPoint2 - 1], p.x + 64, p.y , 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                lastPoint1 = gameSystem.getNextDicePoint();    //这里获取骰子的点数并展示出来
-                lastPoint2 = gameSystem.getNextDicePoint();
                 ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
             }
         }

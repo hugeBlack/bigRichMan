@@ -20,5 +20,6 @@ public interface IGameSystem {
     Integer getPlayerNum();
     void setActorChoose(int[] currentChoose);
     int[] getActorChoose();
-    public void setCurrentPlayer(int type);
+    void setCurrentPlayer(int type);
+    void setNextDicePoint(int i);
 }
