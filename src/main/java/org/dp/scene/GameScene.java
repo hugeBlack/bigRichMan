@@ -21,7 +21,6 @@ public class GameScene extends Scene {
     // 这是个例子，图上有一个玩家，点一下玩家图像就左右移动，然后发出一个PlayerClicked事件，被observer接收，然后clickCount+1
     //private int clickCount;
     private int gamedays;    //记录游戏天数
-    private boolean[] hasRolled;    //记录是否轮到过每个用户
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
     private int currentPlayer=0;
@@ -31,20 +30,9 @@ public class GameScene extends Scene {
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         diceStrategy.setStatus(currentPlayer);
         GameSystem.get().setCurrentPlayer(currentPlayer);
-
-        hasRolled[currentPlayer - 1] = true;
-
-        boolean allTrue = true;
-        for (boolean rolled : hasRolled) {
-            if (!rolled) {
-                allTrue = false;
-                break;
-            }
-        }
-        if (allTrue) {
-            gamedays++;
-            Arrays.fill(hasRolled, false);
-        }
+        //修改游戏天数
+if(currentPlayer==0)
+    gamedays++;
     }
 
     DiceStrategy diceStrategy;
@@ -61,9 +49,7 @@ public class GameScene extends Scene {
           //  }
         //});
 
-        gamedays = 0;
-        hasRolled =  new boolean[]{false, false, false, false};
-
+        gamedays = 1;//从第一天开始
         ConfirmBox c = new ConfirmBox("这是一个确认框哦" );
         // 添加监视者来获取用户的选择
         c.registerObserver(new ComponentObserver() {
@@ -122,18 +108,15 @@ public class GameScene extends Scene {
         // 先获取左上角的绝对坐标，计算要画的位置，然后在graphics上画对应的图形
         Vector2i p = getAbsPosition();
 
-
         //显示各个角色信息
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.drawImage(assets.shanghai, p.x, p.y, null);
         graphics.setFont(font2);
         Vector2i drawPoint = p.add(20,1000);
-        graphics.setFont(font);
-        String text = "游戏天数" + gamedays + "天";
-        graphics.drawString(text, drawPoint.x, drawPoint.y);
+        String text = "游戏天数：" + gamedays + "天";
+        graphics.drawString(text, 1400,100);
         for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
             Vector2i infoPoint = p.add(1300, 200 + i * 150);
-
             graphics.drawImage(playerPicture.img[GameSystem.get(). getActorChoose()[i]], infoPoint.x, infoPoint.y, 100, 100, null);
         }
     }
