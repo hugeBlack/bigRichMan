@@ -7,10 +7,12 @@ import java.io.IOException;
 
 public class TitleSceneAssets implements IAsset{
     public Image background;
+    public Image shanghai;
 
     public TitleSceneAssets(){
         try {
             background = ImageIO.read(new File("./assets/background.jpg"));
+            shanghai = ImageIO.read(new File("./assets/shanghai.jpg"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

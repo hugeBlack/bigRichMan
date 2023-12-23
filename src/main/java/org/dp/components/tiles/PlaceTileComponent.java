@@ -36,7 +36,7 @@ public class PlaceTileComponent extends TileComponent{
             ascent = graphics.getFontMetrics().getAscent();
             isInitialized = true;
         }
-        graphics.drawString(Price, p.x + hitBox.x/2 + titleRelativePos.x, p.y + 80 + titleRelativePos.y + ascent);
-        graphics.drawString(title, p.x + hitBox.x/2 + titleRelativePos.x, p.y  + titleRelativePos.y + ascent);
+        graphics.drawString(Price, p.x + hitBox.x/3 + 10 + titleRelativePos.x, p.y + 70 + titleRelativePos.y + ascent);
+        graphics.drawString(title, p.x + hitBox.x/3 + 10 + titleRelativePos.x, p.y + 20 + titleRelativePos.y + ascent);
     }
 }

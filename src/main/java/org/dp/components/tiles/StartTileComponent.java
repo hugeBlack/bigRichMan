@@ -23,7 +23,7 @@ private String Price="+ 1000";
         Vector2i hitBox = getHitBoxSize();
         int ascent = graphics.getFontMetrics().getAscent();
         graphics.drawImage(img, p.x,p.y, 100,100,null);
-        graphics.drawString(Price, p.x + hitBox.x/2 , p.y + 80  + ascent);
-        graphics.drawString(title, p.x + hitBox.x/2 , p.y   + ascent);
+        graphics.drawString(Price, p.x + hitBox.x/4  , p.y + 70  + ascent);
+        graphics.drawString(title, p.x + hitBox.x/4 , p.y + 10  + ascent);
     }
 }

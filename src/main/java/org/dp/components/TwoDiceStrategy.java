@@ -70,14 +70,14 @@ public class TwoDiceStrategy extends Component implements DiceStrategy {
                     //计算当前距离到目标距离的差值
                     break;
                 case 1:
-                    dstPosition=startPos.add(100, 0);
-                    break;
+                dstPosition=startPos.add(0, 200);
+                break;
                 case 2:
-                    dstPosition=startPos.add(200, 0);
+                    dstPosition=startPos.add(0, 400);
                     break;
                 case 3:
                 default:
-                    dstPosition=startPos.add(300, 0);
+                    dstPosition=startPos.add(0, 600);
                     break;
             }
             Vector2i delta = dstPosition.sub(relativePosition);

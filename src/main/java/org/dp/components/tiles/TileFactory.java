@@ -24,7 +24,7 @@ public class TileFactory {
     }
 
     public TileComponent getTile(TileType tileType, Vector2i position, Integer param,String title){
-        position=position.add(300,1000);
+        position=position.add(400,980);
         switch (tileType){
             case START -> {
                 return new StartTileComponent(position,param);
