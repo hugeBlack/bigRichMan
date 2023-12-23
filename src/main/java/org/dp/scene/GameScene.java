@@ -37,11 +37,11 @@ if(currentPlayer==0)
 
     DiceStrategy diceStrategy;
     public GameScene(){
+        diceStrategy = new ThreeDiceStrategy(new Vector2i(1400, 230));
+        addComponent((Component) diceStrategy);
         // 一个TestComponent作为子组件
         //TestComponent testComponent = new TestComponent();
         //addComponent(testComponent);
-        diceStrategy = new ThreeDiceStrategy(new Vector2i(1400, 230));
-        addComponent((Component) diceStrategy);
         //testComponent.registerObserver(new ComponentObserver() {//通过component进行监视
        //     @Override
          //   public void onEvent(ComponentEvent e) {
@@ -76,7 +76,6 @@ if(currentPlayer==0)
                 if(e instanceof ButtonClickEvent){
                     c.show();
                 }
-
             }
         });
         moveButton.registerObserver(new ComponentObserver() {//人物移动，以及当前角色更改
@@ -100,15 +99,12 @@ if(currentPlayer==0)
             }
         });
         addComponent(backButton);
-
-
     }
     @Override
     public void drawMe(Graphics graphics) {
         // 如何画一个组件：
         // 先获取左上角的绝对坐标，计算要画的位置，然后在graphics上画对应的图形
         Vector2i p = getAbsPosition();
-
         //显示各个角色信息
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.drawImage(assets.shanghai, p.x, p.y, null);
@@ -116,6 +112,7 @@ if(currentPlayer==0)
         Vector2i drawPoint = p.add(20,1000);
         String text = "游戏天数：" + gamedays + "天";
         graphics.drawString(text, 1400,100);
+        //画右侧的四个角色
         for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
             Vector2i infoPoint = p.add(1300, 200 + i * 150);
             graphics.drawImage(playerPicture.img[GameSystem.get(). getActorChoose()[i]], infoPoint.x, infoPoint.y, 100, 100, null);

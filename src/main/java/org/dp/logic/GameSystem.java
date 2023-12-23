@@ -62,7 +62,7 @@ private Player players[] = new Player[4];
             c.show();
             return;
         }
-
+//根据点数，找到下一个目的地
         Tile dest = currentPlayer.currentTile;
         for(int i = 0; i < lastDicePoint; i++){
             dest = dest.next;
@@ -79,7 +79,6 @@ private Player players[] = new Player[4];
     @Override
     public void init() {
         gameScene = new GameScene();
-
         MapBuilder mapBuilder = new MapBuilder("assets/1.json", new Vector2i(0,0));
         GameMap gameMap= mapBuilder.build(new Vector2i(300,300));
         this.gameMap = gameMap;
@@ -93,7 +92,7 @@ private Player players[] = new Player[4];
         this.currentChoose=currentChoose;
         for(int i=0;i<playerNum;i++)
         {
-            players[i] = new Player(gameMap.firstTile, currentChoose[i]);
+            players[i] = new Player(gameMap.firstTile[i], currentChoose[i]);
             gameScene.addComponent(players[i].playerComponent );
         }
         this.currentPlayer = players[currentChoose[0]];

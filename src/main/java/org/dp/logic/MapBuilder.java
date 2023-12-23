@@ -21,6 +21,7 @@ public class MapBuilder {
         TileFactory tileFactory = new TileFactory();
         ans = new GameMap();
         ans.mapComponent = new MapComponent(pos);
+        ans.firstTile=new Tile[4];
         try {
             InputStreamReader isr = new InputStreamReader(new FileInputStream(mapConfigJson), "utf-8");
             BufferedReader br = new BufferedReader(isr);
@@ -51,12 +52,11 @@ public class MapBuilder {
                     StartTileComponent startTileComponent = (StartTileComponent) tileFactory.getTile(TileFactory.TileType.START,
                             new Vector2i(objX, objY), playerID, "");
                     tile1.component = startTileComponent;
-                    if (i == 0)
-                        ans.firstTile = tile1;
+                    ans.firstTile [playerID]= tile1;
                     tiles[i] = tile1;
                     ans.mapComponent.addComponent(startTileComponent);
-
-                } else if (objType.equals("place")) {
+                }
+                else if (objType.equals("place")) {
                     int price = Integer.parseInt(object1.getString("price"));
                     String objName = object1.getString("title");
                     PlaceTileComponent placeTileComponent1 = (PlaceTileComponent) tileFactory.getTile(TileFactory.TileType.PLACE,
@@ -65,14 +65,16 @@ public class MapBuilder {
                     tile2.component = placeTileComponent1;
                     tiles[i] = tile2;
                     ans.mapComponent.addComponent(placeTileComponent1);
-                } else if (objType.equals("event")) {
+                }
+                else if (objType.equals("event")) {
                     EventTileComponent eventTileComponent = (EventTileComponent) tileFactory.getTile(TileFactory.TileType.EVENT,
                             new Vector2i(objX, objY), 0, "");
                     Tile tile2 = new Tile();
                     tile2.component = eventTileComponent;
                     tiles[i] = tile2;
                     ans.mapComponent.addComponent( eventTileComponent);
-                } else if (objType.equals("hospital")) {
+                }
+                else if (objType.equals("hospital")) {
                     Tile tile1 = new Tile();
                     int price = Integer.parseInt(object1.getString("price"));
                     HospitalTileComponent hospitalTileComponent = (HospitalTileComponent) tileFactory.getTile(TileFactory.TileType.HOSPITAL,
