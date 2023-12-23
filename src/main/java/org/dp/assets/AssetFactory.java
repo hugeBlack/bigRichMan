@@ -32,7 +32,9 @@ public class AssetFactory {
             product = new TestComponentAssets();
         } else if (assetName.equals("playerInfo")) {
             product=new PlayerInfo();
-        } else{
+        } else if (assetName.equals("imageAssets")) {
+            product=new ImageAsset();
+        }else{
             throw new RuntimeException("No such product!");
         }
         assetMap.put(assetName, product);

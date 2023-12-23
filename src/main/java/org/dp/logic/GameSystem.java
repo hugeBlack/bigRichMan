@@ -1,5 +1,7 @@
 package org.dp.logic;
 
+import org.dp.assets.AssetFactory;
+import org.dp.assets.PlayerInfo;
 import org.dp.components.PlayerComponent;
 import org.dp.scene.GameScene;
 import org.dp.utils.Vector2i;
@@ -14,6 +16,12 @@ private Player players[] = new Player[4];
     private GameScene gameScene;
     private int   playerNum;
 
+    public PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
+    @Override
+    public PlayerInfo getPlayerInfo()
+    {
+        return playerInfo;
+    }
     public void setCurrentPlayer(int type) {
         this.currentPlayer = players[type];
     }

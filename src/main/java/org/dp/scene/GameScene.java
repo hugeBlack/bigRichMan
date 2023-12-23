@@ -2,6 +2,7 @@ package org.dp.scene;
 
 import org.dp.assets.*;
 import org.dp.components.DiceStrategy;
+import org.dp.components.PlayerInfoComponent;
 import org.dp.components.ThreeDiceStrategy;
 import org.dp.event.ButtonClickEvent;
 import org.dp.logic.GameSystem;
@@ -34,6 +35,7 @@ public class GameScene extends Scene {
 if(currentPlayer==0)
     gamedays++;
     }
+    private PlayerInfoComponent playerInfoComponent;
 
     DiceStrategy diceStrategy;
     public GameScene(){
@@ -50,9 +52,11 @@ if(currentPlayer==0)
         //});
 
         gamedays = 1;//从第一天开始
+        playerInfoComponent = new PlayerInfoComponent();
+
         ConfirmBox c = new ConfirmBox("这是一个确认框哦" );
         // 添加监视者来获取用户的选择
-        c.registerObserver(new ComponentObserver() {
+        /*playerInfoComponent.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ConfirmBoxEvent){
@@ -65,16 +69,16 @@ if(currentPlayer==0)
 
                 }
             }
-        });
+        });*/
 
         GameButton moveButton = new GameButton(new Vector2i(500,400), new Vector2i(300,50), "Move Player");
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500,500), new Vector2i(300,50), "Open ConfirmBox");
-        GameButton backButton = new GameButton(new Vector2i(1250,800), new Vector2i(300,50), "Back");
+        GameButton backButton = new GameButton(new Vector2i(1250,800), new Vector2i(300,50), "退出游戏");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
-                    c.show();
+                    playerInfoComponent.show();
                 }
             }
         });

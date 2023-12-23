@@ -48,7 +48,6 @@ public class ConfirmBox extends Component{
 
             }
         });
-
         noButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
