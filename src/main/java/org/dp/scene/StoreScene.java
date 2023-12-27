@@ -48,16 +48,16 @@ public class StoreScene extends Scene {
                 PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
                 PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
-                int currentPlayerCoin = player.coinNum;
+                int currentPlayerCoupon = player.couponNum;
                 int currentPlayerCard = player.cardNum;
-                if(currentPlayerCoin>=1000) {
-                    player.updatePlayerInfo(player.id, "coin", currentPlayerCoin - 1000);
+                if(currentPlayerCoupon >=1000) {
+                    player.updatePlayerInfo(player.id, "coupon", currentPlayerCoupon - 1000);
                     player.updatePlayerInfo(player.id, "card", currentPlayerCard + 1);
-                    ConfirmBox c = new ConfirmBox(player.defaultName+"您已成功购买幸运骰子卡牌！您还有"+player.coinNum+"元！");
+                    ConfirmBox c = new ConfirmBox(player.defaultName+"您已成功购买幸运骰子卡牌！您还有"+player.couponNum+"点券！");
                     c.show();
                 }
                 else{
-                    ConfirmBox c = new ConfirmBox(player.defaultName+"您的余额不足1000元！");
+                    ConfirmBox c = new ConfirmBox(player.defaultName+"您的点券余额不足1000元！");
                     c.show();
                 }
             }
@@ -73,16 +73,16 @@ public class StoreScene extends Scene {
                 PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
                 PlayerInfo player2=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
-                int currentPlayerCoin = player2.coinNum;
+                int currentPlayerCoupon = player2.couponNum;
                 int currentPlayerCard = player2.cardNum;
-                if(currentPlayerCoin>=2000) {
-                    player2.updatePlayerInfo(player2.id, "coin", currentPlayerCoin - 2000);
+                if(currentPlayerCoupon>=2000) {
+                    player2.updatePlayerInfo(player2.id, "coin", currentPlayerCoupon - 2000);
                     player2.updatePlayerInfo(player2.id, "card", currentPlayerCard + 1);
-                    ConfirmBox c = new ConfirmBox(player2.defaultName+"您已成功购买汽车卡牌！您还有"+player2.coinNum+"元！");
+                    ConfirmBox c = new ConfirmBox(player2.defaultName+"您已成功购买汽车卡牌！您还有"+player2.couponNum+"点券！");
                     c.show();
                 }
                 else{
-                    ConfirmBox c = new ConfirmBox(player2.defaultName+"您的余额不足2000元！");
+                    ConfirmBox c = new ConfirmBox(player2.defaultName+"您的点券余额不足2000元！");
                     c.show();
                 }
             }
