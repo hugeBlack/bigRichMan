@@ -125,4 +125,5 @@ public class Playground extends Component{
         this.getChildren().clear();
         this.addComponent(newScene);//往窗体中加入新的scene
     }
+
 }

@@ -12,7 +12,7 @@ public class GameSystem implements IGameSystem{
 
     private static GameSystem instance = null;
     private Player currentPlayer;
-private Player players[] = new Player[4];
+    private Player players[] = new Player[4];
     private GameScene gameScene;
     private int   playerNum;
 

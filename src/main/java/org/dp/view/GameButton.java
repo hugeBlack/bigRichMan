@@ -36,7 +36,7 @@ public class GameButton extends Component {
 
     public void setBackgroundColor(Color backgroundColor) {
         if(backgroundColor == null)
-            clickedBackgroundColor = new Color(0.0f,0.0f,0.0f, 0.3f);
+            clickedBackgroundColor = new Color(0.0f,0.0f,0.0f, 0.3f);//透明
         else
             clickedBackgroundColor = new Color((int) (backgroundColor.getRed() *0.5 + 128), (int) (backgroundColor.getGreen()*0.5 + 128), (int) (backgroundColor.getBlue()*0.5 + 128));
         this.backgroundColor = backgroundColor;

@@ -13,10 +13,8 @@ import org.dp.view.ConfirmBox;
 import org.dp.view.GameButton;
 import org.dp.view.Playground;
 import org.dp.view.events.ComponentEvent;
-import org.dp.view.events.ConfirmBoxEvent;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class GameScene extends Scene {
     // 这是个例子，图上有一个玩家，点一下玩家图像就左右移动，然后发出一个PlayerClicked事件，被observer接收，然后clickCount+1
@@ -24,13 +22,13 @@ public class GameScene extends Scene {
     private int gamedays;    //记录游戏天数
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
-    private int currentPlayer=0;
+    private static int currentPlayer=0;
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
     private void alterCurrentPlayer(){
-        currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
-        diceStrategy.setStatus(currentPlayer);
-        GameSystem.get().setCurrentPlayer(currentPlayer);
+        currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();//轮流更换当前角色
+        diceStrategy.setStatus(currentPlayer);//更换骰子状态
+        GameSystem.get().setCurrentPlayer(currentPlayer);//更换当前角色
         //修改游戏天数
 if(currentPlayer==0)
     gamedays++;
@@ -73,6 +71,7 @@ if(currentPlayer==0)
 
         GameButton moveButton = new GameButton(new Vector2i(500,400), new Vector2i(300,50), "Move Player");
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500,500), new Vector2i(300,50), "Open ConfirmBox");
+        GameButton storeButton = new GameButton(new Vector2i(1250,700), new Vector2i(300,50), "商店");
         GameButton backButton = new GameButton(new Vector2i(1250,800), new Vector2i(300,50), "退出游戏");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
@@ -95,6 +94,15 @@ if(currentPlayer==0)
 
         addComponent(buttonOpenConfirmBox);
         addComponent(moveButton);
+
+        //商店按钮
+        storeButton.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+                Playground.get().switchScene(new StoreScene());//切换到商店场景
+            }
+        });
+        addComponent(storeButton);
 
         backButton.registerObserver(new ComponentObserver() {
             @Override
@@ -121,5 +129,8 @@ if(currentPlayer==0)
             Vector2i infoPoint = p.add(1300, 200 + i * 150);
             graphics.drawImage(playerPicture.img[GameSystem.get(). getActorChoose()[i]], infoPoint.x, infoPoint.y, 100, 100, null);
         }
+    }
+    public static int GetCurrentPlayerNum(){
+        return currentPlayer;
     }
 }
