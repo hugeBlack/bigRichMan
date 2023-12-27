@@ -83,6 +83,14 @@ public class MapBuilder {
                     tiles[i] = tile1;
                     ans.mapComponent.addComponent( hospitalTileComponent);
                 }
+                else if (objType.equals("store")) {
+                    Tile tile1 = new Tile();
+                    StoreTileComponent storeTileComponent = (StoreTileComponent) tileFactory.getTile(TileFactory.TileType.STORE,
+                            new Vector2i(objX, objY), 0, "");
+                    tile1.component = storeTileComponent;
+                    tiles[i] = tile1;
+                    ans.mapComponent.addComponent( storeTileComponent);
+                }
 
               //   System.out.println( " type:" + objType + " name:" + objName + " x:" + objX + " y:" + objY);
 

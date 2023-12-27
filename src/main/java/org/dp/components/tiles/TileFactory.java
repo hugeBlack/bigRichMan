@@ -11,6 +11,7 @@ public class TileFactory {
         START, // 起点
         PLACE, // 地点
         EVENT, // 事件
+        STORE, // 商店
         //OPPORTUNITY, // 机会
         //FATE, // 命运
         CORNER1, // 第1种角块
@@ -27,16 +28,19 @@ public class TileFactory {
         position=position.add(400,980);
         switch (tileType){
             case START -> {
-                return new StartTileComponent(position,param);
+                return new StartTileComponent(position, param);
             }
             case PLACE -> {
-                return new PlaceTileComponent(position, param,title);
+                return new PlaceTileComponent(position, param, title);
             }
             case EVENT -> {
                 return new EventTileComponent(position);
             }
             case HOSPITAL -> {
-                return new HospitalTileComponent(position,param);
+                return new HospitalTileComponent(position, param);
+            }
+            case STORE -> {
+                return new StoreTileComponent(position);
             }
             default -> throw new RuntimeException("Unknown tile type");
         }

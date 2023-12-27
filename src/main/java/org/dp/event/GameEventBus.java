@@ -20,6 +20,7 @@ public class GameEventBus {
         return instance;
     }
 
+    // 注册监听器
     public void registerListener(Class eventType, GameEventListener listener){
         if(!listenerMap.containsKey(eventType)){
             listenerMap.put(eventType, new HashSet<>());
@@ -38,6 +39,7 @@ public class GameEventBus {
         return false;
     }
 
+    // 发送事件
     public void emitEvent(IGameEvent e){
         // 根据注册的监听事件类型分发事件
         if(!listenerMap.containsKey(e.getClass()))
