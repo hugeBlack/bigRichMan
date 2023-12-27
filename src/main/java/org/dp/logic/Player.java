@@ -1,5 +1,6 @@
 package org.dp.logic;
 
+import org.dp.assets.PlayerInfo;
 import org.dp.components.PlayerComponent;
 import org.dp.components.tiles.TileComponent;
 import org.dp.event.GameEventBus;
@@ -8,14 +9,18 @@ import org.dp.utils.Vector2i;
 
 import java.util.LinkedList;
 
+
 public class Player {
 
     public PlayerComponent playerComponent;
+    // public PlayerInfo playerInfo;
+    public int playerID;
 
     // 玩家当前所在的地块
     public Tile currentTile;
     public Player(Tile initTile, int typeId){
-        currentTile = initTile;
+        this.currentTile = initTile;
+        this.playerID = typeId;
         Vector2i initLocation = initTile.component.getAbsPosition().add(20, 10);
         playerComponent = new PlayerComponent(initLocation, typeId);
 

@@ -22,6 +22,7 @@ public class ConfirmBox extends Component{
     private java.util.List<String> splitInfo;
     private String info;
     private int ascent;// 字体高度
+    private boolean result;  // 存储确认框结果的成员变量
 
     private ConfirmBox me;
     public ConfirmBox(String info) {
@@ -42,6 +43,7 @@ public class ConfirmBox extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    result = true;
                     emitEvent(new ConfirmBoxEvent(true));
                     Playground.get().removeChildren(me);
                 }
@@ -52,12 +54,17 @@ public class ConfirmBox extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    result = false;
                     emitEvent(new ConfirmBoxEvent(false));
                     Playground.get().removeChildren(me);
                 }
 
             }
         });
+    }
+
+    public boolean getResult() {
+        return result;  // 返回确认框结果
     }
 
     @Override

@@ -3,9 +3,15 @@ package org.dp.logic;
 import org.dp.assets.AssetFactory;
 import org.dp.assets.PlayerInfo;
 import org.dp.components.PlayerComponent;
+import org.dp.components.tiles.*;
+import org.dp.event.GameEventBus;
+import org.dp.event.LandedEvent.*;
 import org.dp.scene.GameScene;
 import org.dp.utils.Vector2i;
+import org.dp.view.ComponentObserver;
 import org.dp.view.ConfirmBox;
+import org.dp.view.events.ComponentEvent;
+import org.dp.event.*;
 
 // 单例模式
 public class GameSystem implements IGameSystem {
@@ -68,6 +74,7 @@ public class GameSystem implements IGameSystem {
     }
 
     @Override
+    // performPlayerMove()方法：玩家移动的逻辑，根据骰子点数移动
     public void performPlayerMove() {
         if (lastDicePoint == -1) {
             ConfirmBox c = new ConfirmBox("请先投骰子！");
@@ -81,6 +88,45 @@ public class GameSystem implements IGameSystem {
         }
         currentPlayer.gotoTile(dest);
         lastDicePoint = -1;
+
+        // 检测移动完成之后玩家位于什么地块
+        playerTileJudge(currentPlayer, dest);
+    }
+
+    /**playerTileJudge()方法：
+     * 玩家移动完成后位于地块时的逻辑
+     * 人物和土地交互使用到GameEventBus（中介者模式）
+     * */ 
+    public void playerTileJudge(Player currentPlayer, Tile currentTile) {
+        // 根据currentTile的类型，确定需要发出哪个事件
+        TileComponent tileType = currentTile.component;
+        if (tileType instanceof StartTileComponent) {
+            // 发出玩家到达起点的事件
+            GameEventBus.get().emitEvent(new PlayerLandedOnStartTile(currentPlayer, currentTile));
+        }
+        else if (tileType instanceof EventTileComponent) {
+            // 发出玩家到达事件地块的事件
+            GameEventBus.get().emitEvent(new PlayerLandedOnEventTile(currentPlayer, currentTile));
+        }
+        else if (tileType instanceof HospitalTileComponent) {
+            // 发出玩家到达医院的事件
+            GameEventBus.get().emitEvent(new PlayerLandedOnHospitalTile(currentPlayer, currentTile));
+        }
+        else if (tileType instanceof StoreTileComponent) {
+            // 发出玩家到达商店的事件
+            GameEventBus.get().emitEvent(new PlayerLandedOnStoreTile(currentPlayer, currentTile));
+        }
+        else if (tileType instanceof PlaceTileComponent) {
+            // 发出玩家到达地产的事件
+            GameEventBus.get().emitEvent(new PlayerLandedOnPlaceTile(currentPlayer, currentTile));
+        }
+        // ... 其他逻辑
+        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnStartTile.class, new StartTileListener()));
+        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnEventTile.class, new EventTileListener()));
+        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnHospitalTile.class, new HospitalTileListener()));
+        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnStoreTile.class, new StoreTileListener()));
+        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnPlaceTile.class, new PlaceTileListener()));
+        
     }
 
     @Override

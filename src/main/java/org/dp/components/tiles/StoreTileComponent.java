@@ -3,6 +3,9 @@ package org.dp.components.tiles;
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
 import org.dp.assets.MapAssets;
+import org.dp.event.GameEventBus;
+import org.dp.event.LandedEvent.PlayerLandedOnStoreTile;
+import org.dp.event.LandedEvent.StoreTileListener;
 import org.dp.utils.Vector2i;
 
 import java.awt.*;
@@ -13,6 +16,8 @@ public class StoreTileComponent extends TileComponent {
 
     public StoreTileComponent(Vector2i p) {
         super(p);
+        // 注册监听器
+        //GameEventBus.get().registerListener(PlayerLandedOnStoreTile.class, new StoreTileListener());
     }
 
     @Override

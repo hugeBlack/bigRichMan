@@ -3,6 +3,9 @@ package org.dp.components.tiles;
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
 import org.dp.assets.MapAssets;
+import org.dp.event.GameEventBus;
+import org.dp.event.LandedEvent.HospitalTileListener;
+import org.dp.event.LandedEvent.PlayerLandedOnHospitalTile;
 import org.dp.utils.Vector2i;
 
 import java.awt.*;
@@ -19,6 +22,8 @@ public class HospitalTileComponent extends TileComponent{
     public HospitalTileComponent(Vector2i p, int price) {
         super(p);
         Price ="停"+ price+"天";
+        // 注册监听器
+        //GameEventBus.get().registerListener(PlayerLandedOnHospitalTile.class, new HospitalTileListener());
     }
 
     @Override

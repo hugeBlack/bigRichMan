@@ -3,6 +3,9 @@ package org.dp.components.tiles;
 import org.dp.assets.AssetFactory;
 import org.dp.assets.FontLib;
 import org.dp.assets.MapAssets;
+import org.dp.event.GameEventBus;
+import org.dp.event.LandedEvent.PlayerLandedOnStartTile;
+import org.dp.event.LandedEvent.StartTileListener;
 import org.dp.utils.Vector2i;
 
 import java.awt.*;
@@ -17,6 +20,8 @@ public class StartTileComponent extends TileComponent {
     public StartTileComponent(Vector2i p, int playerID) {
         super(p);
         this.playerID = playerID;
+        // 注册监听器
+        // GameEventBus.get().registerListener(PlayerLandedOnStartTile.class, new StartTileListener());
     }
 
     @Override

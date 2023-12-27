@@ -57,4 +57,5 @@ public class PlayerInfo  implements IAsset{
     public PlayerInfo getPlayerInfo(int index){
         return playerInfos[index];
     }
+
 }

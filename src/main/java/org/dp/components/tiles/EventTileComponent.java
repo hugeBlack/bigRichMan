@@ -2,6 +2,9 @@ package org.dp.components.tiles;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.MapAssets;
+import org.dp.event.GameEventBus;
+import org.dp.event.LandedEvent.EventTileListener;
+import org.dp.event.LandedEvent.PlayerLandedOnEventTile;
 import org.dp.utils.Vector2i;
 
 import java.awt.*;
@@ -12,6 +15,8 @@ public class EventTileComponent  extends TileComponent {
     private String title="命运";
     public EventTileComponent(Vector2i p) {
         super(p);
+        // 注册监听器
+        //GameEventBus.get().registerListener(PlayerLandedOnEventTile.class, new EventTileListener());
     }
 
     @Override
