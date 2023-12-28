@@ -24,7 +24,7 @@ public class HospitalTileListener implements GameEventListener {
     public void onEvent(IGameEvent event) {
         this.currentPlayer = ((PlayerLandedOnHospitalTile) event).getPlayer();
         this.currentTile = ((PlayerLandedOnHospitalTile) event).getCurrentTile();
-        int playerID = currentPlayer.playerID;
+        this.playerID = currentPlayer.playerID;
 
         PlayerLandedOnHospitalEvent();
     }

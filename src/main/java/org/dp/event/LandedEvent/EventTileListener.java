@@ -24,7 +24,7 @@ public class EventTileListener implements GameEventListener {
     public void onEvent(IGameEvent event) {
         this.currentPlayer = ((PlayerLandedOnEventTile) event).getPlayer();
         this.currentTile = ((PlayerLandedOnEventTile) event).getCurrentTile();
-        int playerID = currentPlayer.playerID;
+        this.playerID = currentPlayer.playerID;
 
         PlayerLandedOnEvent();
         
@@ -32,7 +32,18 @@ public class EventTileListener implements GameEventListener {
 
     private void PlayerLandedOnEvent() {
         // 处理玩家落在事件格的事件
+        // 处理玩家落在起点的事件
+        PlayerInfo playerInfo = playerInfos.getPlayerInfo(playerID);
 
+        // 获得玩家当前金币数
+        int currentCoupon = playerInfo.couponNum;
+        // 获得1-3的一个随机整数upNum
+        int upNum = (int) (Math.random() * 3) + 1;
+        // 玩家到达起点，获得点券奖励
+        playerInfo.updatePlayerInfo(playerID, "coupon", currentCoupon + 1000*upNum);
+        // 弹窗提示
+        ConfirmBox c = new ConfirmBox(playerInfo.defaultName + "命运女神眷顾你，获得" + 1000 * upNum + "点券奖励！");
+        c.show();
     }
 
 }
