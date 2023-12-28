@@ -3,6 +3,8 @@ package org.dp.event.LandedEvent;
 import org.dp.event.IGameEvent;
 import org.dp.logic.Player;
 import org.dp.logic.Tile;
+import org.dp.assets.PlayerInfo;
+import org.dp.logic.GameSystem;
 
 public class PlayerLandedOnHospitalTile implements IGameEvent{
     private final Player player;
@@ -11,6 +13,8 @@ public class PlayerLandedOnHospitalTile implements IGameEvent{
     public PlayerLandedOnHospitalTile(Player player, Tile currentTile) {
         this.player = player;
         this.currentTile = currentTile;
+        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
+        playerInfos.setInHospital(player.playerID,true,2);
     }
 
     public Player getPlayer() {

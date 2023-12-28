@@ -16,6 +16,7 @@ public class PlayerInfo  implements IAsset{
     public String defaultName;  //默认名称
     public DiceStrategy strategy;
     public boolean inHospital = false;  //是否在医院
+    public int forbidDay=0;
     public static PlayerInfo[] playerInfos = new PlayerInfo[6];//玩家信息数组
 
     public PlayerInfo(int id,int coinNum,int couponNum,int cardCarNum,int cardLuckNum,String defaultName){
@@ -27,6 +28,7 @@ public class PlayerInfo  implements IAsset{
         this.cardLuckNum =cardLuckNum;
         this.defaultName= defaultName;
         this.inHospital = false;
+        this.forbidDay=0;
         this.houseNum = 0;
     }
 
@@ -79,8 +81,18 @@ public class PlayerInfo  implements IAsset{
     }
 
     // 更新玩家是否在医院的信息
-    public void setInHospital(int i,boolean inHospital){
+    public void setInHospital(int i,boolean inHospital,int forbidDay){
         playerInfos[i].inHospital = inHospital;
+        playerInfos[i].forbidDay = forbidDay;
+    }
+    public void reduceForbidDay(int i){
+        if(playerInfos[i].forbidDay==1){
+            playerInfos[i].inHospital = false;
+            playerInfos[i].forbidDay=0;
+        }
+        else{
+            playerInfos[i].forbidDay-=1;
+        }
     }
 
     // 获取玩家信息
