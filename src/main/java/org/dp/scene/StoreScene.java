@@ -62,7 +62,7 @@ public class StoreScene extends Scene {
                 }
             }
         });
-
+        addComponent(buyButton);
         //CarCard的购买按钮
         GameButton buyButton2 = new GameButton(new Vector2i(1100,800), new Vector2i(200,30), "购买");
         buyButton2.registerObserver(new ComponentObserver() {

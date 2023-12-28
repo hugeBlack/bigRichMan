@@ -29,6 +29,10 @@ public abstract class Component {
     private LinkedList<Component> componentsToBeRemoved = new LinkedList<>();
     private LinkedList<Component> componentsToBeAdded = new LinkedList<>();
 
+    public Component() {
+
+    }
+
     public Vector2i getHitBoxSize() {
         return new Vector2i(hitBoxSize);
     }

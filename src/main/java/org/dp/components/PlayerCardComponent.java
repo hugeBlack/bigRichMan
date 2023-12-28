@@ -97,7 +97,42 @@ public class PlayerCardComponent extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
-                    Playground.get().removeChildren(me);
+                    // 获取当前玩家编号
+                    int playerId = GameScene.GetCurrentPlayerNum();
+
+                    PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
+                    PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[playerId]);
+
+                    int currentPlayerCard = player.cardLuckNum;
+                    if(currentPlayerCard >=1) {
+                        player.updatePlayerInfo(player.id, "cardluck", currentPlayerCard - 1);
+                        ConfirmBox c = new ConfirmBox("使用幸运卡牌");
+                        c.show();
+
+                        String[] numbers = {"1", "2", "3", "4", "5", "6"};
+                        String selectedNumber = (String)JOptionPane.showInputDialog(
+                                null,
+                                "请选择一个幸运数字",
+                                "幸运数字",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                numbers,
+                                numbers[0]
+                        );
+                        // 检查是否选择了一个数字
+                        if(selectedNumber != null && !selectedNumber.isEmpty()) {
+                            int luckyNumber = Integer.parseInt(selectedNumber);
+                            // 创建一个 LuckyDiceDecorator 实例并设置幸运数字
+                            LuckyDiceDecorator luckyDecorator = new LuckyDiceDecorator(new Vector2i(1400, 230),player.strategy);
+                            luckyDecorator.setLuckyNumber(luckyNumber);
+                            // 将玩家的策略设置为 LuckyDiceDecorator
+                            player.strategy = luckyDecorator;
+                        }
+                    }
+                    else{
+                        ConfirmBox c = new ConfirmBox("卡牌数量不足");
+                        c.show();
+                    }
                 }
             }
         });

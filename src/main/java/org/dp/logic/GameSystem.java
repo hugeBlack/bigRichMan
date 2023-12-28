@@ -76,11 +76,11 @@ public class GameSystem implements IGameSystem {
     @Override
     // performPlayerMove()方法：玩家移动的逻辑，根据骰子点数移动
     public void performPlayerMove() {
-        if (lastDicePoint == -1) {
-            ConfirmBox c = new ConfirmBox("请先投骰子！");
-            c.show();
-            return;
-        }
+//        if (lastDicePoint == -1) {
+//            ConfirmBox c = new ConfirmBox("请先投骰子！");
+//            c.show();
+//            return;
+//        }
         // 根据点数，找到下一个目的地
         Tile dest = currentPlayer.currentTile;
         for (int i = 0; i < lastDicePoint; i++) {

@@ -14,9 +14,6 @@ public class TileFactory {
         STORE, // 商店
         //OPPORTUNITY, // 机会
         //FATE, // 命运
-        CORNER1, // 第1种角块
-        //CORNER2, // 第2种角块
-        //CORNER3, // 第3种角块
         HOSPITAL
     }
 

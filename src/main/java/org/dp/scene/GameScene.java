@@ -70,7 +70,6 @@ public class GameScene extends Scene {
 
         playerInfoComponent = new PlayerInfoComponent();
 
-
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
         GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "商店");
         GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
@@ -82,27 +81,42 @@ public class GameScene extends Scene {
                 }
             }
         });
+// 事件流程是:
+// DiceChosen - 更新当前玩家骰子策略
+// DiceRolled - 玩家移动、切换玩家、触发RoundStart
+// RoundStart - 显示手牌
+// 其中DiceChosen只负责更新当前玩家的策略组件,不涉及玩家切换。
+// 而玩家切换是发生在DiceRolled事件中的alterCurrentPlayer方法中。
+        // RoundStart事件监听器
+        // 作用:显示玩家的手牌组件
         GameEventBus.get().registerListener(RoundStartEvent.class, event -> {
             playerCardComponent.show();
         });
-        // 改成事件驱动的了
+        // DiceRolled事件监听器
+        // 作用:执行玩家移动逻辑,切换到下一个玩家,触发RoundStart事件
         GameEventBus.get().registerListener(DiceRolledEvent.class, event -> {
-            // 处理扔骰子结束的逻辑
+            // 执行玩家移动逻辑
             GameSystem.get().performPlayerMove();
+            // 切换到下一个玩家
             alterCurrentPlayer();
-            GameEventBus.get().emitEvent((IGameEvent) new RoundStartEvent());
+            // 触发RoundStart事件,为下个玩家初始化
+            GameEventBus.get().emitEvent(new RoundStartEvent());
         });
+        // DiceChosen事件监听器
+        // 作用:更新当前玩家的骰子策略组件
         GameEventBus.get().registerListener(DiceChosenEvent.class, event ->{
-            // 清除上一个人的策略
+            // 清除上一个玩家的骰子策略组件
             removeChildren((Component) diceStrategy);
-            // 获取新的策略
+            // 获取当前玩家的骰子策略
             diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+            // 如果为空则设置为默认策略1
             if (diceStrategy == null) {
                 GameSystem.get().getPlayerInfo().updatePlayerInfo(currentPlayer,"strategy",1);
                 diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
             }
-            // 应用新的策略
+            // 设置骰子策略组件的状态为当前玩家
             diceStrategy.setStatus(currentPlayer);
+            // 添加新的骰子策略组件
             addComponent((Component) diceStrategy);
         });
         addComponent(buttonOpenConfirmBox);
