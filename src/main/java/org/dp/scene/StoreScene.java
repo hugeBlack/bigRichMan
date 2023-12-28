@@ -49,7 +49,7 @@ public class StoreScene extends Scene {
                 PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
                 int currentPlayerCoupon = player.couponNum;
-                int currentPlayerCard = player.cardNum;
+                int currentPlayerCard = player.cardLuckNum;
                 if(currentPlayerCoupon >=1000) {
                     player.updatePlayerInfo(player.id, "coupon", currentPlayerCoupon - 1000);
                     player.updatePlayerInfo(player.id, "card", currentPlayerCard + 1);
@@ -62,7 +62,6 @@ public class StoreScene extends Scene {
                 }
             }
         });
-        addComponent(buyButton);
 
         //CarCard的购买按钮
         GameButton buyButton2 = new GameButton(new Vector2i(1100,800), new Vector2i(200,30), "购买");
@@ -74,7 +73,7 @@ public class StoreScene extends Scene {
                 PlayerInfo player2=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
                 int currentPlayerCoupon = player2.couponNum;
-                int currentPlayerCard = player2.cardNum;
+                int currentPlayerCard = player2.cardCarNum;
                 if(currentPlayerCoupon>=2000) {
                     player2.updatePlayerInfo(player2.id, "coin", currentPlayerCoupon - 2000);
                     player2.updatePlayerInfo(player2.id, "card", currentPlayerCard + 1);

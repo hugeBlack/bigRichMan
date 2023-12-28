@@ -58,26 +58,29 @@ public class PlayerInfoComponent extends Component {
         graphics.drawImage(board, windowPos.x, windowPos.y, null);
         graphics.setFont(font);
         graphics.setColor(Color.BLACK);
-        // 做一个for循环，i的范围是0到玩家数量-1，要输出这个玩家的所有信息
-        for (int i = 0; i < GameSystem.get().getPlayerNum(); i++) {
-            // 获取这个玩家
-            // 注意要根据选择的角色来获取玩家
-            PlayerInfo player = playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[i]);
-            int dist = 900 / GameSystem.get().getPlayerNum();
-            int x = windowPos.x + 200 + dist * i;
-            graphics.drawImage(playerPicture.img[GameSystem.get().getActorChoose()[i]], x, windowPos.y + 50, 100, 100,
-                    null);
-            int y = windowPos.y + 200;
-            // 输出标题：玩家1
-            graphics.drawString("玩家" + (i + 1), x, y);
-            y -= 40;
-            // 输出玩家的信息
-            graphics.drawString(player.defaultName, x, y + 150);
-            graphics.drawString("金币数：" + player.coinNum, x, y + 230);
+
+        //做一个for循环，i的范围是0到玩家数量-1，要输出这个玩家的所有信息
+        for(int i=0;i<GameSystem.get().getPlayerNum();i++){
+            //获取这个玩家
+            //注意要根据选择的角色来获取玩家
+            PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[i]);
+            int dist=900/GameSystem.get().getPlayerNum();
+            int x=windowPos.x+200+dist*i;
+            graphics.drawImage(playerPicture.img[GameSystem.get(). getActorChoose()[i]], x, windowPos.y+50, 100, 100, null);
+            int y=windowPos.y+200;
+            //输出标题：玩家1
+            graphics.drawString("玩家"+(i+1),x,y);
+            y-=40;
+            //输出玩家的信息
+            graphics.drawString(player.defaultName,x,y+150);
+            graphics.drawString("金币数："+player.coinNum,x,y+230);
+            graphics.drawString("地产数："+player.houseNum,x,y+310);
             graphics.drawString("点券数：" + player.couponNum, x, y + 280);
-            graphics.drawString("地产数：" + player.houseNum, x, y + 330);
-            // 输出卡牌数
-            graphics.drawString("卡牌数：" + player.cardNum, x, y + 380);
+
+            //输出卡牌数
+            graphics.drawString("汽车卡牌数："+player.cardCarNum,x,y+390);
+            graphics.drawString("幸运卡牌数："+player.cardLuckNum,x,y+470);
+
         }
 
     }

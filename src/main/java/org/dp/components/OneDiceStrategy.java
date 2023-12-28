@@ -2,8 +2,12 @@ package org.dp.components;
 
 import org.dp.assets.AssetFactory;
 import org.dp.assets.DiceAssets;
+import org.dp.event.DiceRolledEvent;
+import org.dp.event.GameEventBus;
+import org.dp.event.IGameEvent;
 import org.dp.logic.GameSystem;
 import org.dp.logic.IGameSystem;
+import org.dp.scene.GameScene;
 import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
 import org.dp.view.Component;
@@ -11,6 +15,7 @@ import org.dp.view.ConfirmBox;
 import org.dp.view.events.ClickEvent;
 import org.dp.view.events.MouseEvent;
 
+import javax.swing.*;
 import java.awt.*;
 
 //策略模式
@@ -91,6 +96,25 @@ public class OneDiceStrategy extends Component implements DiceStrategy {
                 ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
                 GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
+                AnimationTimeHelper animationTimeHelper = new AnimationTimeHelper(1000);
+                animationTimeHelper.start();
+                // 创建一个线程来处理动画
+                new Thread(() -> {
+                    while(animationTimeHelper.getLinearProgress() < 1) {
+                        // 可能需要添加一个sleep或者等待以避免空循环
+                        try {
+                            Thread.sleep(10); // 等待一段时间
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // 动画完成后，确保组件的隐藏在事件分发线程上执行
+                    SwingUtilities.invokeLater(() -> {
+                        c.remove();
+                        // 派发事件
+                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                    });
+                }).start();
             }
         }
     }

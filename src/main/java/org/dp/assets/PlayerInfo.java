@@ -1,19 +1,30 @@
 package org.dp.assets;
 
+import org.dp.components.DiceStrategy;
+import org.dp.components.OneDiceStrategy;
+import org.dp.components.ThreeDiceStrategy;
+import org.dp.components.TwoDiceStrategy;
+import org.dp.utils.Vector2i;
+
 public class PlayerInfo  implements IAsset{
     public int id;        //玩家编号
     public int coinNum;   //金币数量
     public int couponNum; //点券数量
-    public int cardNum;   //卡片数量
+    public int cardCarNum;
+    public int cardLuckNum;
     public int houseNum;  //房屋数量
     public String defaultName;  //默认名称
+    public DiceStrategy strategy;
     public boolean inHospital = false;  //是否在医院
     public static PlayerInfo[] playerInfos = new PlayerInfo[6];//玩家信息数组
-    public PlayerInfo(int id, int coinNum, int couponNum, int cardNum, String defaultName){
+
+    public PlayerInfo(int id,int coinNum,int couponNum,int cardCarNum,int cardLuckNum,String defaultName){
+
         this.id = id;
         this.coinNum = coinNum;
         this.couponNum = couponNum;
-        this.cardNum = 0;
+        this.cardCarNum = cardCarNum;
+        this.cardLuckNum =cardLuckNum;
         this.defaultName= defaultName;
         this.inHospital = false;
         this.houseNum = 0;
@@ -24,12 +35,13 @@ public class PlayerInfo  implements IAsset{
     }
 
     public void setPlayerInfos(){
-        playerInfos[0] = new PlayerInfo(0,7000,1000,0,"菲菲公主");
-        playerInfos[1] = new PlayerInfo(1,1000,1000,0,"无敌忍者");
-        playerInfos[2] = new PlayerInfo(2,3000,1000,0,"惠惠");
-        playerInfos[3] = new PlayerInfo(3,5000,1000,0,"石油大亨");
-        playerInfos[4] = new PlayerInfo(4,10000,1000,0,"很厉害的小螃蟹");
-        playerInfos[5] = new PlayerInfo(5,40000,1000,0,"修狗");
+        playerInfos[0] = new PlayerInfo(0,7000,1000,1,1,"菲菲公主");
+        playerInfos[1] = new PlayerInfo(1,1000,1000,2,0,"无敌忍者");
+        playerInfos[2] = new PlayerInfo(2,3000,1000,0,2,"惠惠");
+        playerInfos[3] = new PlayerInfo(3,5000,1000,1,1,"石油大亨");
+        playerInfos[4] = new PlayerInfo(4,10000,1000,1,1,"很厉害的小螃蟹");
+        playerInfos[5] = new PlayerInfo(5,40000,1000,0,0,"修狗");
+
     }
 
     // 更新玩家信息
@@ -40,13 +52,30 @@ public class PlayerInfo  implements IAsset{
         else if(type.toLowerCase().equals("coupon")){
             playerInfos[i].couponNum = num;
         }
-        else if(type.toLowerCase().equals("card")){
-            playerInfos[i].cardNum = num;
+        else if(type.toLowerCase().equals("cardcar")){
+            playerInfos[i].cardCarNum = num;
+        }
+        else if(type.toLowerCase().equals("cardluck")){
+            playerInfos[i].cardLuckNum = num;
         }
         else if(type.toLowerCase().equals("house")){
             playerInfos[i].houseNum = num;
         }
-
+        else if(type.toLowerCase().equals("strategy")){
+            switch (num){
+                case 1:
+                    playerInfos[i].strategy = new OneDiceStrategy(new Vector2i(1400, 230));
+                    break;
+                case 2:
+                    playerInfos[i].strategy = new TwoDiceStrategy(new Vector2i(1400, 230));
+                    break;
+                case 3:
+                    playerInfos[i].strategy = new ThreeDiceStrategy(new Vector2i(1400, 230));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     // 更新玩家是否在医院的信息
