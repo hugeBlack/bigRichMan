@@ -34,8 +34,8 @@ public class ConfirmBox extends Component{
         noButton.setTextColor(Color.BLACK);
         okButton.setFont(assets.buttonFont);
         noButton.setFont(assets.buttonFont);
-        addComponent(okButton);
-        addComponent(noButton);
+//        addComponent(okButton);
+//        addComponent(noButton);
         this.info = info;
         me = this;
         okButton.registerObserver(new ComponentObserver() {
@@ -86,12 +86,10 @@ public class ConfirmBox extends Component{
         }
     }
 
-    @Override
-    public boolean onMouseEventMe(MouseEvent e){
-        return true;
-    }
-
     public void show() {
         Playground.get().addComponent(this);
+    }
+    public void remove() {
+        Playground.get().removeChildren(me);
     }
 }

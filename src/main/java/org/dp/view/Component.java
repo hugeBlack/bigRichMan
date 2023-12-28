@@ -1,11 +1,13 @@
 package org.dp.view;
 
+import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
 import org.dp.view.events.ComponentEvent;
 import org.dp.view.events.HoverEvent;
 import org.dp.view.events.LeaveEvent;
 import org.dp.view.events.MouseEvent;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -77,9 +79,6 @@ public abstract class Component {
         else
             throw new RuntimeException("Child not found");
     }
-    public void repaint(){
-        Playground.get().repaint();
-    }
 
     private void draw(Graphics graphics){
         // 迭代器模式！迭代地绘制整个图形界面
@@ -146,6 +145,7 @@ public abstract class Component {
         componentsToBeAdded.add(child);
         child.parent = this;
     }
+    // 添加子组件方法
 
     public void registerObserver(ComponentObserver eo){
         observers.add(eo);

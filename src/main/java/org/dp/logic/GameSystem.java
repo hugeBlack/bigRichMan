@@ -30,6 +30,7 @@ public class GameSystem implements IGameSystem{
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
     }
+
     @Override
     public Integer getPlayerNum()
     {
@@ -110,6 +111,5 @@ public class GameSystem implements IGameSystem{
     {
         return currentChoose;
     }
-
 
 }

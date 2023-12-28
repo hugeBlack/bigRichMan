@@ -73,7 +73,8 @@ public class PlayerInfoComponent extends Component{
             graphics.drawString("金币数："+player.coinNum,x,y+230);
             graphics.drawString("地产数："+player.houseNum,x,y+310);
             //输出卡牌数
-            graphics.drawString("卡牌数："+player.cardNum,x,y+390);
+            graphics.drawString("汽车卡牌数："+player.cardCarNum,x,y+390);
+            graphics.drawString("幸运卡牌数："+player.cardLuckNum,x,y+470);
         }
 
     }

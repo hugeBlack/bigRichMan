@@ -49,7 +49,7 @@ public class StoreScene extends Scene {
                 PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
                 int currentPlayerCoin = player.coinNum;
-                int currentPlayerCard = player.cardNum;
+                int currentPlayerCard = player.cardLuckNum;
                 if(currentPlayerCoin>=1000) {
                     player.updatePlayerInfo(player.id, "coin", currentPlayerCoin - 1000);
                     player.updatePlayerInfo(player.id, "card", currentPlayerCard + 1);
@@ -74,7 +74,7 @@ public class StoreScene extends Scene {
                 PlayerInfo player2=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayerNum]);
 
                 int currentPlayerCoin = player2.coinNum;
-                int currentPlayerCard = player2.cardNum;
+                int currentPlayerCard = player2.cardCarNum;
                 if(currentPlayerCoin>=2000) {
                     player2.updatePlayerInfo(player2.id, "coin", currentPlayerCoin - 2000);
                     player2.updatePlayerInfo(player2.id, "card", currentPlayerCard + 1);

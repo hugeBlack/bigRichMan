@@ -198,7 +198,8 @@ public class SelectPlayerScene extends Scene {
             graphics.drawString("玩家" + (i + 1), infoPoint.x, infoPoint.y +150);
             graphics.drawString("姓名：" + playerInfo.getPlayerInfo(currentChoose[i]).defaultName, infoPoint.x, infoPoint.y + 200);
             graphics.drawString("金币数：" + playerInfo.getPlayerInfo(currentChoose[i]).coinNum, infoPoint.x, infoPoint.y + 250);
-            graphics.drawString("卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardNum, infoPoint.x, infoPoint.y + 300);
+            graphics.drawString("汽车卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardCarNum, infoPoint.x, infoPoint.y + 300);
+            graphics.drawString("幸运卡牌数：" + playerInfo.getPlayerInfo(currentChoose[i]).cardLuckNum, infoPoint.x, infoPoint.y + 350);
 
             graphics.drawImage(playerPicture.img[currentChoose[i]], infoPoint.x, infoPoint.y - 50, 100, 100, null);
         }
