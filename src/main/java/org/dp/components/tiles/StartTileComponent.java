@@ -32,7 +32,7 @@ public class StartTileComponent extends TileComponent {
         graphics.drawImage(img, p.x, p.y, 100, 100, null);
         Font font = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.setFont(font);
-        graphics.setColor(Color.white);
+        graphics.setColor(Color.BLACK);
         graphics.drawString(Price, p.x + hitBox.x / 4, p.y + 70 + ascent);
         graphics.drawString(title, p.x + hitBox.x / 4, p.y + 10 + ascent);
     }
