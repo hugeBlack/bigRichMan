@@ -120,13 +120,13 @@ public class GameScene extends Scene {
         addComponent(moveButton);
 
         // 商店按钮
-        storeButton.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new StoreScene());// 切换到商店场景
-            }
-        });
-        addComponent(storeButton);
+        //storeButton.registerObserver(new ComponentObserver() {
+        //    @Override
+        //    public void onEvent(ComponentEvent e) {
+        //        Playground.get().switchScene(new StoreScene());// 切换到商店场景
+        //    }
+        //});
+        // addComponent(storeButton);
 
         backButton.registerObserver(new ComponentObserver() {
             @Override
