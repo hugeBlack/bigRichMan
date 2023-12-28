@@ -5,10 +5,8 @@ import org.dp.logic.GameSystem;
 import org.dp.scene.*;
 import org.dp.utils.StringUtils;
 import org.dp.utils.Vector2i;
-import org.dp.view.ComponentObserver;
+import org.dp.view.*;
 import org.dp.view.Component;
-import org.dp.view.GameButton;
-import org.dp.view.Playground;
 import org.dp.view.events.ComponentEvent;
 import org.dp.view.events.ConfirmBoxEvent;
 import org.dp.view.events.MouseEvent;
@@ -52,31 +50,45 @@ public class PlayerCardComponent extends Component{
                 // 获取当前玩家编号
                 int playerId = GameScene.GetCurrentPlayerNum();
 
-                String[] options = {"1个骰子","2个骰子","3个骰子"};
+                PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
+                PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[playerId]);
 
-                Object obj = JOptionPane.showInputDialog(null,
-                        "请选择骰子数",
-                        "策略选择",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[0]);
+                int currentPlayerCard = player.cardCarNum;
+                if(currentPlayerCard >=1) {
+                    player.updatePlayerInfo(player.id, "cardcar", currentPlayerCard - 1);
+                    ConfirmBox c = new ConfirmBox("使用汽车卡牌");
+                    c.show();
 
-                String strategy = "1个骰子";
+                    String[] options = {"1个骰子","2个骰子","3个骰子"};
 
-                if (obj == null) {// 点击取消的话
-                    GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
+                    Object obj = JOptionPane.showInputDialog(null,
+                            "请选择骰子数",
+                            "策略选择",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[0]);
+
+                    String strategy = "1个骰子";
+
+                    if (obj == null) {// 点击取消的话
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
+                    }
+                    else {
+                        strategy = obj.toString();
+                    }
+                    // 根据选择设置策略
+                    if(strategy.equals("1个骰子")) {
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
+                    } else if(strategy.equals("2个骰子")){
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 2);
+                    } else if(strategy.equals("3个骰子")) {
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 3);
+                    }
+
                 }
-                else {
-                    strategy = obj.toString();
+                else{
+                    ConfirmBox c = new ConfirmBox("卡牌数量不足");
+                    c.show();
                 }
-                // 根据选择设置策略
-                if(strategy.equals("1个骰子")) {
-                    GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
-                } else if(strategy.equals("2个骰子")){
-                    GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 2);
-                } else if(strategy.equals("3个骰子")) {
-                    GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 3);
-                }
-
             }
 
         });

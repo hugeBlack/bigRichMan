@@ -1,7 +1,7 @@
 package org.dp.scene;
 
 import org.dp.assets.*;
-import org.dp.event.ButtonClickEvent;
+import org.dp.event.*;
 import org.dp.logic.GameSystem;
 import org.dp.utils.Vector2i;
 import org.dp.view.ComponentObserver;
@@ -56,6 +56,7 @@ public class SelectPlayerScene extends Scene {
                 if (e instanceof ButtonClickEvent) {
                     GameSystem.get().setActorChoose(currentChoose);
                     Playground.get().switchScene(GameSystem.get().getScene());
+                    GameEventBus.get().emitEvent((IGameEvent) new RoundStartEvent());
                 }
             }
         });

@@ -4,9 +4,8 @@ import org.dp.assets.*;
 
 import org.dp.components.*;
 
-import org.dp.event.ButtonClickEvent;
+import org.dp.event.*;
 
-import org.dp.event.GameEventBus;
 import org.dp.event.LandedEvent.EventTileListener;
 import org.dp.event.LandedEvent.HospitalTileListener;
 import org.dp.event.LandedEvent.PlaceTileListener;
@@ -17,9 +16,6 @@ import org.dp.event.LandedEvent.PlayerLandedOnStartTile;
 import org.dp.event.LandedEvent.PlayerLandedOnStoreTile;
 import org.dp.event.LandedEvent.StartTileListener;
 import org.dp.event.LandedEvent.StoreTileListener;
-
-import org.dp.event.DiceChosenEvent;
-import org.dp.event.DiceRolledEvent;
 
 import org.dp.logic.GameSystem;
 import org.dp.utils.Vector2i;
@@ -45,17 +41,7 @@ public class GameScene extends Scene {
         // 切换为下一个人
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         GameSystem.get().setCurrentPlayer(currentPlayer);
-        // 清除上一个人的策略
-        removeChildren((Component) diceStrategy);
-        // 获取新的策略
-        diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
-        if (diceStrategy == null) {
-            GameSystem.get().getPlayerInfo().updatePlayerInfo(currentPlayer,"strategy",1);
-            diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
-        }
-        // 应用新的策略
-        diceStrategy.setStatus(currentPlayer);
-        addComponent((Component) diceStrategy);
+
         // 修改游戏天数
         if(currentPlayer==0)
             gamedays++;
@@ -96,30 +82,30 @@ public class GameScene extends Scene {
                 }
             }
         });
-
+        GameEventBus.get().registerListener(RoundStartEvent.class, event -> {
+            playerCardComponent.show();
+        });
         // 改成事件驱动的了
         GameEventBus.get().registerListener(DiceRolledEvent.class, event -> {
             // 处理扔骰子结束的逻辑
             GameSystem.get().performPlayerMove();
-            playerCardComponent.show();
+            alterCurrentPlayer();
+            GameEventBus.get().emitEvent((IGameEvent) new RoundStartEvent());
         });
         GameEventBus.get().registerListener(DiceChosenEvent.class, event ->{
-            alterCurrentPlayer();
+            // 清除上一个人的策略
+            removeChildren((Component) diceStrategy);
+            // 获取新的策略
+            diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+            if (diceStrategy == null) {
+                GameSystem.get().getPlayerInfo().updatePlayerInfo(currentPlayer,"strategy",1);
+                diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+            }
+            // 应用新的策略
+            diceStrategy.setStatus(currentPlayer);
+            addComponent((Component) diceStrategy);
         });
-//        moveButton.registerObserver(new ComponentObserver() {//人物移动，以及当前角色更改
-//            @Override
-//            public void onEvent(ComponentEvent e) {
-//                if(e instanceof ButtonClickEvent){
-//                    GameSystem.get().performPlayerMove();
-//
-//                    playerCardComponent.show();
-//                    alterCurrentPlayer();
-//                }
-//            }
-//        });
-
         addComponent(buttonOpenConfirmBox);
-//        addComponent(moveButton);
 
         // 商店按钮
         storeButton.registerObserver(new ComponentObserver() {
