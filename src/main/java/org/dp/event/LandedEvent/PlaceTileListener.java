@@ -62,7 +62,7 @@ public class PlaceTileListener implements GameEventListener {
                             if (e1.getResult()) {
                                 // 玩家选择购买
                                 playerInfo.updatePlayerInfo(playerID, "coin", currentCoin - tilePrice); // 玩家支付地块价格
-                                playerInfo.updatePlayerInfo(playerID, "place", houseNum + 1); // 玩家拥有地块数+1
+                                playerInfo.updatePlayerInfo(playerID, "house", houseNum + 1); // 玩家拥有地块数+1
                                 ((PlaceTileComponent) currentTile.component).setOwner(playerID); // 设置地块所有者
                                 ((PlaceTileComponent) currentTile.component).setLevel(1); // 设置房屋等级为1
                                 ConfirmBox success = new ConfirmBox("购买成功！");

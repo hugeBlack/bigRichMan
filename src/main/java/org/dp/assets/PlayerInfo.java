@@ -13,9 +13,10 @@ public class PlayerInfo  implements IAsset{
         this.id = id;
         this.coinNum = coinNum;
         this.couponNum = couponNum;
-        this.cardNum = cardNum;
+        this.cardNum = 0;
         this.defaultName= defaultName;
         this.inHospital = false;
+        this.houseNum = 0;
     }
 
     public PlayerInfo(){
@@ -23,12 +24,12 @@ public class PlayerInfo  implements IAsset{
     }
 
     public void setPlayerInfos(){
-        playerInfos[0] = new PlayerInfo(0,7000,1000,1,"菲菲公主");
-        playerInfos[1] = new PlayerInfo(1,1000,1000,2,"无敌忍者");
-        playerInfos[2] = new PlayerInfo(2,3000,1000,4,"惠惠");
-        playerInfos[3] = new PlayerInfo(3,5000,1000,6,"石油大亨");
-        playerInfos[4] = new PlayerInfo(4,10000,1000,8,"很厉害的小螃蟹");
-        playerInfos[5] = new PlayerInfo(5,40000,1000,6,"修狗");
+        playerInfos[0] = new PlayerInfo(0,7000,1000,0,"菲菲公主");
+        playerInfos[1] = new PlayerInfo(1,1000,1000,0,"无敌忍者");
+        playerInfos[2] = new PlayerInfo(2,3000,1000,0,"惠惠");
+        playerInfos[3] = new PlayerInfo(3,5000,1000,0,"石油大亨");
+        playerInfos[4] = new PlayerInfo(4,10000,1000,0,"很厉害的小螃蟹");
+        playerInfos[5] = new PlayerInfo(5,40000,1000,0,"修狗");
     }
 
     // 更新玩家信息
