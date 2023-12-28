@@ -121,12 +121,6 @@ public class GameSystem implements IGameSystem {
             GameEventBus.get().emitEvent(new PlayerLandedOnPlaceTile(currentPlayer, currentTile));
         }
         // ... 其他逻辑
-        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnStartTile.class, new StartTileListener()));
-        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnEventTile.class, new EventTileListener()));
-        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnHospitalTile.class, new HospitalTileListener()));
-        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnStoreTile.class, new StoreTileListener()));
-        //System.out.println(GameEventBus.get().unregisterListener(PlayerLandedOnPlaceTile.class, new PlaceTileListener()));
-        
     }
 
     @Override

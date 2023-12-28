@@ -57,7 +57,7 @@ public class GameScene extends Scene {
         GameEventBus.get().registerListener(PlayerLandedOnEventTile.class, new EventTileListener());
         GameEventBus.get().registerListener(PlayerLandedOnHospitalTile.class, new HospitalTileListener());
         GameEventBus.get().registerListener(PlayerLandedOnStoreTile.class, new StoreTileListener());
-        
+
         diceStrategy = new ThreeDiceStrategy(new Vector2i(1400, 230));
         addComponent((Component) diceStrategy);
         // 一个TestComponent作为子组件
@@ -73,7 +73,7 @@ public class GameScene extends Scene {
         gamedays = 1;// 从第一天开始
         playerInfoComponent = new PlayerInfoComponent();
 
-        ConfirmBox c = new ConfirmBox("这是一个确认框哦");
+        // ConfirmBox c = new ConfirmBox("这是一个确认框哦");
         // 添加监视者来获取用户的选择
         /*
          * playerInfoComponent.registerObserver(new ComponentObserver() {
@@ -110,7 +110,7 @@ public class GameScene extends Scene {
             public void onEvent(ComponentEvent e) {
                 if (e instanceof ButtonClickEvent) {
                     GameSystem.get().performPlayerMove();
-                    c.show();
+                    //c.show();
                     alterCurrentPlayer();
                 }
             }
