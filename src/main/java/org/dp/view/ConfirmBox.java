@@ -35,8 +35,8 @@ public class ConfirmBox extends Component{
         noButton.setTextColor(Color.BLACK);
         okButton.setFont(assets.buttonFont);
         noButton.setFont(assets.buttonFont);
-//        addComponent(okButton);
-//        addComponent(noButton);
+        addComponent(okButton);
+        addComponent(noButton);
         this.info = info;
         me = this;
         okButton.registerObserver(new ComponentObserver() {
