@@ -45,6 +45,15 @@ public class GameScene extends Scene {
         // 修改游戏天数
         if(currentPlayer==0)
             gamedays++;
+        //如果当前角色在医院，禁止操作，提示后进行下一步
+        currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();//轮流更换当前角色
+        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
+        if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
+            playerInfos.reduceForbidDay(currentPlayer);
+            ConfirmBox c = new ConfirmBox("您被禁止活动！");
+            c.show();
+            alterCurrentPlayer();
+        }
     }
 
     private PlayerInfoComponent playerInfoComponent;
