@@ -157,7 +157,6 @@ public class GameScene extends Scene {
         Font font2 = ((FontLib) AssetFactory.getAsset("fontLib")).placePriceFont;
         graphics.drawImage(assets.shanghai, p.x, p.y, null);
         graphics.setFont(font2);
-        Vector2i drawPoint = p.add(20, 1000);
         String text = "游戏天数：" + gamedays + "天";
         graphics.drawString(text, 1400, 100);
         // 画右侧的四个角色

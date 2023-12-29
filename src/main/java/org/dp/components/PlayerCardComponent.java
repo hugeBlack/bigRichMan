@@ -27,6 +27,7 @@ public class PlayerCardComponent extends Component{
     private Component me;//自己
     PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
     public PlayerCardComponent() {
+
         super(new Vector2i(200,100), new Vector2i(800,600));
         me = this;
 
@@ -158,10 +159,9 @@ public class PlayerCardComponent extends Component{
 
         //获取这个玩家
         //注意要根据选择的角色来获取玩家
-        PlayerInfo player=playerInfos.getPlayerInfo(GameScene.GetCurrentPlayerNum());
-        int dist=900/GameSystem.get().getPlayerNum();
+        PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()]);
         int x=windowPos.x+200;
-        graphics.drawImage(playerPicture.img[GameScene.GetCurrentPlayerNum()], x, windowPos.y+50, 100, 100, null);
+        graphics.drawImage(playerPicture.img[GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()]], x, windowPos.y+50, 100, 100, null);
         int y=windowPos.y+100;
         //输出玩家的信息
         graphics.drawString(player.defaultName,x,y+150);
