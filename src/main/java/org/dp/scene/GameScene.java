@@ -38,6 +38,11 @@ public class GameScene extends Scene {
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
     private void alterCurrentPlayer(){
+        // 清除骰子效果
+        removeChildren((Component) diceStrategy);
+        diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
+        diceStrategy.setStatus(currentPlayer);
+        addComponent((Component) diceStrategy);
         // 切换为下一个人
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         GameSystem.get().setCurrentPlayer(currentPlayer);
@@ -45,14 +50,13 @@ public class GameScene extends Scene {
         // 修改游戏天数
         if(currentPlayer==0)
             gamedays++;
-        //如果当前角色在医院，禁止操作，提示后进行下一步
-        currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();//轮流更换当前角色
+
         PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
         if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
             playerInfos.reduceForbidDay(currentPlayer);
             ConfirmBox c = new ConfirmBox("您被禁止活动！");
             c.show();
-            alterCurrentPlayer();
+            currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         }
     }
 
