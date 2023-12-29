@@ -42,6 +42,7 @@ public class StartTileListener implements GameEventListener {
         // 弹窗提示
         ConfirmBox c = new ConfirmBox(playerInfo.defaultName + "路过起点，获得1000金币奖励！");
         c.show();
+        c.setCallback((type) -> {});
     }
 
 }

@@ -17,6 +17,7 @@ public class PlayerLandedOnEventTile implements IGameEvent{
         add_coupon();
         ConfirmBox c = new ConfirmBox("点劵增加了1000点!");
         c.show();
+        c.setCallback((type) -> {});
     }
 
     private void add_coupon(){
