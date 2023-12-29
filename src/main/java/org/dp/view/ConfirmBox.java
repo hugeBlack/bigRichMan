@@ -43,6 +43,9 @@ public class ConfirmBox extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    if(callback != null) {
+                        callback.onResult(true);
+                    }
                     result = true;
                     emitEvent(new ConfirmBoxEvent(true));
                     Playground.get().removeChildren(me);
@@ -54,6 +57,9 @@ public class ConfirmBox extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    if(callback != null) {
+                        callback.onResult(false);
+                    }
                     result = false;
                     emitEvent(new ConfirmBoxEvent(false));
                     Playground.get().removeChildren(me);
@@ -96,9 +102,12 @@ public class ConfirmBox extends Component{
     public void show() {
         Playground.get().addComponent(this);
     }
-    public void remove() {
-        if (me != null)
-            Playground.get().removeChildren(me);
+    public interface ConfirmCallback {
+        void onResult(boolean result);
     }
+    private ConfirmCallback callback;
 
+    public void setCallback(ConfirmCallback callback) {
+        this.callback = callback;
+    }
 }

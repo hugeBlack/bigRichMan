@@ -67,6 +67,7 @@ public class PlaceTileListener implements GameEventListener {
                                 ((PlaceTileComponent) currentTile.component).setLevel(1); // 设置房屋等级为1
                                 ConfirmBox success = new ConfirmBox("购买成功！");
                                 success.show();
+                                success.setCallback((type) -> {});
                             } else {
                                 // 玩家选择不购买或取消
                                 // 这里可以根据你的游戏逻辑添加代码处理用户拒绝购买的情况
@@ -75,12 +76,14 @@ public class PlaceTileListener implements GameEventListener {
                     }
                 });
                 c.show();
+                c.setCallback((type) -> {});
             }
             // 如果玩家金币数小于地块价格，不能购买
             else {
                 // 弹窗提示
                 ConfirmBox c = new ConfirmBox("金币不足，无法购买！");
                 c.show();
+                c.setCallback((type) -> {});
             }
         } else {
             PlayerInfo owner = playerInfo.getPlayerInfo(ownerID);
@@ -92,6 +95,7 @@ public class PlaceTileListener implements GameEventListener {
                     // 弹窗提示
                     ConfirmBox c = new ConfirmBox("支付" + tollPrice + "金币过路费");
                     c.show();
+                    c.setCallback((type) -> {});
                     // 玩家支付过路费
                     playerInfo.updatePlayerInfo(playerID, "coin", currentCoin - tollPrice);
                     int ownerCoin = owner.coinNum;
@@ -100,6 +104,7 @@ public class PlaceTileListener implements GameEventListener {
                     // 弹窗提示
                     ConfirmBox c = new ConfirmBox("金币不足，" + playerInfo.defaultName + "破产！");
                     c.show();
+                    c.setCallback((type) -> {});
                 }
             } else if (ownerID == playerID) {
                 // 获取当前房屋等级
@@ -121,6 +126,7 @@ public class PlaceTileListener implements GameEventListener {
                                 ((PlaceTileComponent) currentTile.component).setLevel(++currentLevel);
                                 ConfirmBox success = new ConfirmBox("房屋升级至" + currentLevel + "级!");
                                 success.show();
+                                success.setCallback((type) -> {});
                             } else {
                                 // 玩家选择不购买或取消
                                 // 这里可以根据你的游戏逻辑添加代码处理用户拒绝购买的情况
@@ -129,6 +135,7 @@ public class PlaceTileListener implements GameEventListener {
                     }
                 });
                 c.show();
+                c.setCallback((type) -> {});
             }
         }
     }

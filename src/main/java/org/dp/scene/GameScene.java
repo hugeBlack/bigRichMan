@@ -56,6 +56,7 @@ public class GameScene extends Scene {
             playerInfos.reduceForbidDay(currentPlayer);
             ConfirmBox c = new ConfirmBox("您被禁止活动！");
             c.show();
+            c.setCallback((type) -> {});
             currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         }
     }

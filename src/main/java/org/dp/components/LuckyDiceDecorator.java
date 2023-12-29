@@ -81,30 +81,12 @@ class LuckyDiceDecorator extends DiceDecorator {
             graphics.drawImage(diceAssets.diceImage[lastPoint - 1], p.x, p.y, 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                ConfirmBox c = new ConfirmBox("使用幸运骰子前进" + getDicePointSum() + "点!");
                 GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
-//                AnimationTimeHelper animationTimeHelper = new AnimationTimeHelper(1000);
-//                animationTimeHelper.start();
-//                // 创建一个线程来处理动画
-//                new Thread(() -> {
-//                    while(animationTimeHelper.getLinearProgress() < 1) {
-//                        // 可能需要添加一个sleep或者等待以避免空循环
-//                        try {
-//                            Thread.sleep(10); // 等待一段时间
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    // 动画完成后，确保组件的隐藏在事件分发线程上执行
-//                    SwingUtilities.invokeLater(() -> {
-//                        c.remove();
-//                        // 派发事件
-//                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-//                    });
-//                }).start();
-                // 派发事件
-                GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                c.setCallback((type) -> {
+                    GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                });
             }
         }
     }
@@ -115,6 +97,7 @@ class LuckyDiceDecorator extends DiceDecorator {
         if(!gameSystem.canRollDice() || isRolling){
             ConfirmBox c = new ConfirmBox("现在还不能掷骰子哦~");
             c.show();
+            c.setCallback((type) -> {});
             return true;
         }else{
             lastProgress = 0.0;

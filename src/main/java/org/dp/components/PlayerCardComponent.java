@@ -89,6 +89,7 @@ public class PlayerCardComponent extends Component{
                 else{
                     ConfirmBox c = new ConfirmBox("卡牌数量不足");
                     c.show();
+                    c.setCallback((type) -> {});
                 }
             }
 

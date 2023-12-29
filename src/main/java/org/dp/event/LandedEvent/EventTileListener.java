@@ -45,6 +45,7 @@ public class EventTileListener implements GameEventListener {
         // 弹窗提示
         ConfirmBox c = new ConfirmBox(playerInfo.defaultName + "命运女神眷顾你，获得" + 1000 * upNum + "点券奖励！");
         c.show();
+        c.setCallback((type) -> {});
     }
 
 }
