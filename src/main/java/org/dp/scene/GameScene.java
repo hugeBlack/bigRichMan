@@ -69,12 +69,10 @@ public class GameScene extends Scene {
         GameEventBus.get().registerListener(PlayerLandedOnHospitalTile.class, new HospitalTileListener());
         GameEventBus.get().registerListener(PlayerLandedOnStoreTile.class, new StoreTileListener());
 
-        // 每个 Player 持有自己的策略对象，Static 维护所有人的，直接拿
-        GameSystem.get().getPlayerInfo().updatePlayerInfo(currentPlayer,"strategy",1);
-        diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+        // 第一个人好像必须要这样
+        diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
         addComponent((Component) diceStrategy);
-        // 第一个开始的人要先选卡牌
-//        playerCardComponent.show();
+
         gamedays = 1;//从第一天开始
 
         playerInfoComponent = new PlayerInfoComponent();
@@ -104,6 +102,7 @@ public class GameScene extends Scene {
         // DiceRolled事件监听器
         // 作用:执行玩家移动逻辑,切换到下一个玩家,触发RoundStart事件
         GameEventBus.get().registerListener(DiceRolledEvent.class, event -> {
+            System.out.println("Player"+currentPlayer+"DiceRolled");
             // 执行玩家移动逻辑
             GameSystem.get().performPlayerMove();
             // 切换到下一个玩家
@@ -117,12 +116,12 @@ public class GameScene extends Scene {
             // 清除上一个玩家的骰子策略组件
             removeChildren((Component) diceStrategy);
             // 获取当前玩家的骰子策略
-            diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+            diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             // 如果为空则设置为默认策略1
             if (diceStrategy == null) {
-                GameSystem.get().getPlayerInfo().updatePlayerInfo(currentPlayer,"strategy",1);
-                diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
+                diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
             }
+            System.out.println(diceStrategy);
             // 设置骰子策略组件的状态为当前玩家
             diceStrategy.setStatus(currentPlayer);
             // 添加新的骰子策略组件
