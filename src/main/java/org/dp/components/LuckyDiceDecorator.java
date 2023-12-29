@@ -84,25 +84,27 @@ class LuckyDiceDecorator extends DiceDecorator {
                 ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
                 GameSystem.get().setNextDicePoint(getDicePointSum());
                 c.show();
-                AnimationTimeHelper animationTimeHelper = new AnimationTimeHelper(1000);
-                animationTimeHelper.start();
-                // 创建一个线程来处理动画
-                new Thread(() -> {
-                    while(animationTimeHelper.getLinearProgress() < 1) {
-                        // 可能需要添加一个sleep或者等待以避免空循环
-                        try {
-                            Thread.sleep(10); // 等待一段时间
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    // 动画完成后，确保组件的隐藏在事件分发线程上执行
-                    SwingUtilities.invokeLater(() -> {
-                        c.remove();
-                        // 派发事件
-                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-                    });
-                }).start();
+//                AnimationTimeHelper animationTimeHelper = new AnimationTimeHelper(1000);
+//                animationTimeHelper.start();
+//                // 创建一个线程来处理动画
+//                new Thread(() -> {
+//                    while(animationTimeHelper.getLinearProgress() < 1) {
+//                        // 可能需要添加一个sleep或者等待以避免空循环
+//                        try {
+//                            Thread.sleep(10); // 等待一段时间
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    // 动画完成后，确保组件的隐藏在事件分发线程上执行
+//                    SwingUtilities.invokeLater(() -> {
+//                        c.remove();
+//                        // 派发事件
+//                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+//                    });
+//                }).start();
+                // 派发事件
+                GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
             }
         }
     }

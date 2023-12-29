@@ -97,6 +97,8 @@ public class ConfirmBox extends Component{
         Playground.get().addComponent(this);
     }
     public void remove() {
-        Playground.get().removeChildren(me);
+        if (me != null)
+            Playground.get().removeChildren(me);
     }
+
 }
