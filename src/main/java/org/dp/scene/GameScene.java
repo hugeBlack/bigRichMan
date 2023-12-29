@@ -74,13 +74,13 @@ public class GameScene extends Scene {
         diceStrategy = PlayerInfo.playerInfos[currentPlayer].strategy;
         addComponent((Component) diceStrategy);
         // 第一个开始的人要先选卡牌
-        playerCardComponent.show();
+//        playerCardComponent.show();
         gamedays = 1;//从第一天开始
 
         playerInfoComponent = new PlayerInfoComponent();
 
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
-        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "商店");
+//        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "商店");
         GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
@@ -130,14 +130,14 @@ public class GameScene extends Scene {
         });
         addComponent(buttonOpenConfirmBox);
 
-        // 商店按钮
-        storeButton.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new StoreScene());// 切换到商店场景
-            }
-        });
-        addComponent(storeButton);
+//        // 商店按钮
+//        storeButton.registerObserver(new ComponentObserver() {
+//            @Override
+//            public void onEvent(ComponentEvent e) {
+//                Playground.get().switchScene(new StoreScene());// 切换到商店场景
+//            }
+//        });
+//        addComponent(storeButton);
 
         backButton.registerObserver(new ComponentObserver() {
             @Override

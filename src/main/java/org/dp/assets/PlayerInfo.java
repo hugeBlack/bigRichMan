@@ -28,7 +28,7 @@ public class PlayerInfo  implements IAsset{
         this.cardLuckNum =cardLuckNum;
         this.defaultName= defaultName;
         this.inHospital = false;
-        this.forbidDay=0;
+        this.forbidDay= 0;
         this.houseNum = 0;
     }
 
