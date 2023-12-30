@@ -35,6 +35,7 @@ public class GameScene extends Scene {
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
     private static int currentPlayer=0;
+    public boolean isRoundEnd = false;
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
     private void alterCurrentPlayer(){
@@ -134,11 +135,12 @@ public class GameScene extends Scene {
         });
         addComponent(buttonOpenConfirmBox);
 
-        // 商店按钮
+        // 结束回合按钮
         storeButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
-
+                // 只有结束回合才能开放权限
+                isRoundEnd = false;
                 // 切换到下一个玩家
                 alterCurrentPlayer();
                 // 触发RoundStart事件,为下个玩家初始化

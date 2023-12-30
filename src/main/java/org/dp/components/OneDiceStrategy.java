@@ -93,12 +93,19 @@ public class OneDiceStrategy extends Component implements DiceStrategy {
             graphics.drawImage(diceAssets.diceImage[lastPoint - 1], p.x, p.y, 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
-                GameSystem.get().setNextDicePoint(getDicePointSum());
-                c.show();
-                c.setCallback((type) -> {
-                    GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-                });
+                if (GameSystem.get().getScene().isRoundEnd) {
+                    ConfirmBox c = new ConfirmBox("您的回合已结束");
+                    c.show();
+                    c.setCallback((type) -> {});
+                } else {
+                    GameSystem.get().getScene().isRoundEnd = true;
+                    ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                    GameSystem.get().setNextDicePoint(getDicePointSum());
+                    c.show();
+                    c.setCallback((type) -> {
+                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                    });
+                }
             }
         }
     }

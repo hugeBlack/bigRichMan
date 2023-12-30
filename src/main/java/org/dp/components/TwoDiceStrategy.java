@@ -102,14 +102,21 @@ public class TwoDiceStrategy extends Component implements DiceStrategy {
             graphics.drawImage(diceAssets2.diceImage[lastPoint2 - 1], p.x + 64, p.y , 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
-                GameSystem.get().setNextDicePoint(getDicePointSum());
-                // 恢复为1个骰子
-                GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getPlayerNum(), "strategy", 1);
-                c.show();
-                c.setCallback((type) -> {
-                    GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-                });
+                if (GameSystem.get().getScene().isRoundEnd) {
+                    ConfirmBox c = new ConfirmBox("您的回合已结束");
+                    c.show();
+                    c.setCallback((type) -> {});
+                } else {
+                    GameSystem.get().getScene().isRoundEnd = true;
+                    ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
+                    GameSystem.get().setNextDicePoint(getDicePointSum());
+                    // 恢复为1个骰子
+                    GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getPlayerNum(), "strategy", 1);
+                    c.show();
+                    c.setCallback((type) -> {
+                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                    });
+                }
             }
         }
     }
