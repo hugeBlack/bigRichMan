@@ -93,6 +93,7 @@ public class GameScene extends Scene {
             public void onEvent(ComponentEvent e) {
                 if (e instanceof ButtonClickEvent) {
                     playerInfoComponent.show();
+                    System.out.println("num"+GameSystem.get().getPlayerNum());
                 }
             }
         });

@@ -23,7 +23,7 @@ public class PlayersNumScene extends Scene{
     private GameButton prevButton;
     private Vector<GameButton> numButtons=new Vector<>();
     private int playerNum;
-    private SelectPlayerScene selectPlayerScene;
+    //private SelectPlayerScene selectPlayerScene;
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
@@ -41,12 +41,7 @@ public class PlayersNumScene extends Scene{
                     IGameSystem gameSystem = GameSystem.get();
                     gameSystem.init();
                     gameSystem.setPlayerNum(playerNum);
-
-                    if(selectPlayerScene==null) {      //这段话是什么意思？
-                        selectPlayerScene = new SelectPlayerScene();
-                        selectPlayerScene.setPlayerNumScene(PlayersNumScene.this);
-                    }
-                    Playground.get().switchScene(selectPlayerScene);
+                    Playground.get().switchScene(new SelectPlayerScene());
                 }
             }
         });

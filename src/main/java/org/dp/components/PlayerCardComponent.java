@@ -161,6 +161,7 @@ public class PlayerCardComponent extends Component{
         //获取这个玩家
         //注意要根据选择的角色来获取玩家
         PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()]);
+
         int x=windowPos.x+200;
         graphics.drawImage(playerPicture.img[GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()]], x, windowPos.y+50, 100, 100, null);
         int y=windowPos.y+100;

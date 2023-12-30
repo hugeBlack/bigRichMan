@@ -18,6 +18,9 @@ public class GameSystem implements IGameSystem {
 
     private static GameSystem instance = null;
     private Player currentPlayer;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
     private Player players[] = new Player[4];
     private GameScene gameScene;
     private int playerNum;
@@ -147,7 +150,7 @@ public class GameSystem implements IGameSystem {
             players[i] = new Player(gameMap.firstTile[i], currentChoose[i]);
             gameScene.addComponent(players[i].playerComponent);
         }
-        this.currentPlayer = players[currentChoose[0]];
+        this.currentPlayer = players[0];
     }
 
     @Override

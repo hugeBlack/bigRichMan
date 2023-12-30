@@ -81,7 +81,8 @@ public abstract class Component {
         if(children.contains(component))
             componentsToBeRemoved.add(component);
         else
-            throw new RuntimeException("Child not found");
+            System.out.println("Child not found");
+            //throw new RuntimeException("Child not found");
     }
 
     private void draw(Graphics graphics){
