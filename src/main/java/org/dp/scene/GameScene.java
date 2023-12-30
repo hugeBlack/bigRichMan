@@ -48,18 +48,20 @@ public class GameScene extends Scene {
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         GameSystem.get().setCurrentPlayer(currentPlayer);
 
+        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
+
+        if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
+            playerInfos.reduceForbidDay(currentPlayer);
+            ConfirmBox c = new ConfirmBox(playerInfos.getPlayerInfo(currentPlayer).defaultName+"被禁止活动！");
+            c.show();
+            c.setCallback((type) -> {});
+            currentPlayer = (currentPlayer + 1) % GameSystem.get().getPlayerNum();
+            GameSystem.get().setCurrentPlayer(currentPlayer);
+        }
+
         // 修改游戏天数
         if(currentPlayer==0)
             gamedays++;
-
-        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
-        if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
-            playerInfos.reduceForbidDay(currentPlayer);
-            ConfirmBox c = new ConfirmBox("您被禁止活动！");
-            c.show();
-            c.setCallback((type) -> {});
-            currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
-        }
     }
 
     private PlayerInfoComponent playerInfoComponent;
