@@ -12,12 +12,14 @@ public class PlayerPicture implements IAsset {
 
     // 这里是不是还能做成组合、装饰、外观？看各位发挥
     public PlayerPicture(){
-        img = new Image[4];
+        img = new Image[6];
         try {
             img[0] = ImageIO.read(new File("./assets/player/1.png"));
             img[1] = ImageIO.read(new File("./assets/player/2.png"));
             img[2] = ImageIO.read(new File("./assets/player/3.png"));
             img[3] = ImageIO.read(new File("./assets/player/4.png"));
+            img[4] = ImageIO.read(new File("./assets/player/5.png"));
+            img[5] = ImageIO.read(new File("./assets/player/6.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

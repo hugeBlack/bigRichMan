@@ -25,4 +25,7 @@ public class Vector2i {
         return new Vector2i(x + dx, y + dy);
     }
 
+    public Vector2i sub(Vector2i relativePosition) {
+        return new Vector2i(x - relativePosition.x, y - relativePosition.y);
+    }
 }

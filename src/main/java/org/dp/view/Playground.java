@@ -9,7 +9,7 @@ import java.awt.event.*;
 public class Playground extends Component{
 
     private static Playground thePlayground = null;
-    private JFrame canvasFrame;
+    private JFrame canvasFrame;//定义唯一的窗口
     private boolean isClosed = false;
 
     private int currentCursor = 0;
@@ -61,7 +61,7 @@ public class Playground extends Component{
         Graphics g = canvasFrame.getGraphics();
         Playground playground = this;
 
-        Runnable renderRunner = new Runnable() {
+        Runnable renderRunner = new Runnable() {//使用匿名类
             @Override
             public void run() {
                 while(true){
@@ -71,7 +71,7 @@ public class Playground extends Component{
                         throw new RuntimeException(e);
                     }
                     Image offScreenImage = canvasFrame.createImage(1600, 900);     //新建一个图像缓存空间,这里图像大小为800*600
-                    if(lastMouseEvent != null){
+                    if(lastMouseEvent != null){//处理上一个鼠标事件
                         Component.emitRootMouseEvent(playground, lastMouseEvent);
                         lastMouseEvent = null;
                     }
@@ -123,6 +123,7 @@ public class Playground extends Component{
 
     public void switchScene(Scene newScene){
         this.getChildren().clear();
-        this.addComponent(newScene);
+        this.addComponent(newScene);//往窗体中加入新的scene
     }
+
 }

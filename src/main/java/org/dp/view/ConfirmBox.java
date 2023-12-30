@@ -21,7 +21,9 @@ public class ConfirmBox extends Component{
     private Vector2i windowPos;
     private java.util.List<String> splitInfo;
     private String info;
-    private int ascent;
+    private int ascent;// 字体高度
+    private boolean result;  // 存储确认框结果的成员变量
+
     private ConfirmBox me;
     public ConfirmBox(String info) {
         super(new Vector2i(0,0), new Vector2i(0,0));
@@ -41,23 +43,34 @@ public class ConfirmBox extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    if(callback != null) {
+                        callback.onResult(true);
+                    }
+                    result = true;
                     emitEvent(new ConfirmBoxEvent(true));
                     Playground.get().removeChildren(me);
                 }
 
             }
         });
-
         noButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    if(callback != null) {
+                        callback.onResult(false);
+                    }
+                    result = false;
                     emitEvent(new ConfirmBoxEvent(false));
                     Playground.get().removeChildren(me);
                 }
 
             }
         });
+    }
+
+    public boolean getResult() {
+        return result;  // 返回确认框结果
     }
 
     @Override
@@ -86,12 +99,15 @@ public class ConfirmBox extends Component{
         }
     }
 
-    @Override
-    public boolean onMouseEventMe(MouseEvent e){
-        return true;
-    }
-
     public void show() {
         Playground.get().addComponent(this);
+    }
+    public interface ConfirmCallback {
+        void onResult(boolean result);
+    }
+    private ConfirmCallback callback;
+
+    public void setCallback(ConfirmCallback callback) {
+        this.callback = callback;
     }
 }

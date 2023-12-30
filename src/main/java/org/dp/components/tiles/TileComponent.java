@@ -7,7 +7,7 @@ import java.awt.*;
 
 public abstract class TileComponent extends Component {
 
-    public TileComponent(Vector2i p, Vector2i hitBoxSize) {
-        super(p, hitBoxSize);
+    public TileComponent(Vector2i p) {
+        super(p, new Vector2i(100, 100));
     }
 }

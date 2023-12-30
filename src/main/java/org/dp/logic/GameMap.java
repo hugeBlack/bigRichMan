@@ -5,5 +5,5 @@ import org.dp.components.MapComponent;
 public class GameMap {
 
     public MapComponent mapComponent;
-    Tile firstTile;
+    Tile[] firstTile;
 }
