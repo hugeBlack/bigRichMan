@@ -83,7 +83,7 @@ public class GameScene extends Scene {
         playerInfoComponent = new PlayerInfoComponent();
 
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
-//        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "商店");
+        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "结束回合");
         GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
@@ -110,10 +110,10 @@ public class GameScene extends Scene {
             System.out.println("Player"+currentPlayer+"DiceRolled");
             // 执行玩家移动逻辑
             GameSystem.get().performPlayerMove();
-            // 切换到下一个玩家
-            alterCurrentPlayer();
-            // 触发RoundStart事件,为下个玩家初始化
-            GameEventBus.get().emitEvent(new RoundStartEvent());
+//            // 切换到下一个玩家
+//            alterCurrentPlayer();
+//            // 触发RoundStart事件,为下个玩家初始化
+//            GameEventBus.get().emitEvent(new RoundStartEvent());
         });
         // DiceChosen事件监听器
         // 作用:更新当前玩家的骰子策略组件
@@ -134,14 +134,18 @@ public class GameScene extends Scene {
         });
         addComponent(buttonOpenConfirmBox);
 
-//        // 商店按钮
-//        storeButton.registerObserver(new ComponentObserver() {
-//            @Override
-//            public void onEvent(ComponentEvent e) {
-//                Playground.get().switchScene(new StoreScene());// 切换到商店场景
-//            }
-//        });
-//        addComponent(storeButton);
+        // 商店按钮
+        storeButton.registerObserver(new ComponentObserver() {
+            @Override
+            public void onEvent(ComponentEvent e) {
+
+                // 切换到下一个玩家
+                alterCurrentPlayer();
+                // 触发RoundStart事件,为下个玩家初始化
+                GameEventBus.get().emitEvent(new RoundStartEvent());
+            }
+        });
+        addComponent(storeButton);
 
         backButton.registerObserver(new ComponentObserver() {
             @Override
