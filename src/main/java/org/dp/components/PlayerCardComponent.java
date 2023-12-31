@@ -26,6 +26,13 @@ public class PlayerCardComponent extends Component{
     private Vector2i windowPos;
     private Component me;//自己
     PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
+    public interface ExitCallback {
+        void onExitClicked();
+    }
+    private ExitCallback exitCallback;
+    public void setExitCallback(ExitCallback callback) {
+        this.exitCallback = callback;
+    }
     public PlayerCardComponent() {
 
         super(new Vector2i(200,100), new Vector2i(800,600));
@@ -38,8 +45,11 @@ public class PlayerCardComponent extends Component{
             @Override
             public void onEvent(ComponentEvent e) {
                 if(e instanceof ButtonClickEvent){
+                    // 调用回调函数
+                    if(exitCallback != null) {
+                        exitCallback.onExitClicked();
+                    }
                     Playground.get().removeChildren(me);
-                    GameEventBus.get().emitEvent((IGameEvent) new DiceChosenEvent());
                 }
             }
         });

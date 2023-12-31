@@ -81,12 +81,21 @@ class LuckyDiceDecorator extends DiceDecorator {
             graphics.drawImage(diceAssets.diceImage[lastPoint - 1], p.x, p.y, 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                ConfirmBox c = new ConfirmBox("使用幸运骰子前进" + getDicePointSum() + "点!");
-                GameSystem.get().setNextDicePoint(getDicePointSum());
-                c.show();
-                c.setCallback((type) -> {
-                    GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-                });
+                if (GameSystem.get().getScene().isRoundEnd) {
+                    ConfirmBox c = new ConfirmBox("您的回合已结束");
+                    c.show();
+                    c.setCallback((type) -> {});
+                } else {
+                    GameSystem.get().getScene().isRoundEnd = true;
+                    ConfirmBox c = new ConfirmBox("使用幸运骰子前进" + getDicePointSum() + "点!");
+                    GameSystem.get().setNextDicePoint(getDicePointSum());
+                    // 恢复为1个骰子
+                    GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getPlayerNum(), "strategy", 1);
+                    c.show();
+                    c.setCallback((type) -> {
+                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                    });
+                }
             }
         }
     }

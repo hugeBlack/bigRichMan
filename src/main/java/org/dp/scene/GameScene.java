@@ -107,6 +107,9 @@ public class GameScene extends Scene {
         // 作用:显示玩家的手牌组件
         GameEventBus.get().registerListener(RoundStartEvent.class, event -> {
             playerCardComponent.show();
+            playerCardComponent.setExitCallback(()->{
+                GameEventBus.get().emitEvent((IGameEvent) new DiceChosenEvent());
+            });
         });
         // DiceRolled事件监听器
         // 作用:执行玩家移动逻辑,切换到下一个玩家,触发RoundStart事件
@@ -128,6 +131,7 @@ public class GameScene extends Scene {
             diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             // 如果为空则设置为默认策略1
             if (diceStrategy == null) {
+//                PlayerInfo.updatePlayerInfo(GameSystem.get().getActorChoose()[currentPlayer],"strategy",1);
                 diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
             }
             System.out.println(diceStrategy);
