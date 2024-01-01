@@ -51,9 +51,9 @@ public class GameScene extends Scene {
 
         PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
 
-        if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
-            playerInfos.reduceForbidDay(currentPlayer);
-            ConfirmBox c = new ConfirmBox(playerInfos.getPlayerInfo(currentPlayer).defaultName+"被禁止活动！");
+        if(playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayer]).inHospital){
+            playerInfos.reduceForbidDay(GameSystem.get().getActorChoose()[currentPlayer]);
+            ConfirmBox c = new ConfirmBox(playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayer]).defaultName+"被禁止活动！");
             c.show();
             c.setCallback((type) -> {});
             currentPlayer = (currentPlayer + 1) % GameSystem.get().getPlayerNum();
@@ -133,8 +133,9 @@ public class GameScene extends Scene {
             diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             // 如果为空则设置为默认策略1
             if (diceStrategy == null) {
-//                PlayerInfo.updatePlayerInfo(GameSystem.get().getActorChoose()[currentPlayer],"strategy",1);
-                diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
+                PlayerInfo.updatePlayerInfo(GameSystem.get().getActorChoose()[currentPlayer],"strategy",1);
+//                diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
+                diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             }
             System.out.println(diceStrategy);
             // 设置骰子策略组件的状态为当前玩家

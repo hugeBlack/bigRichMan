@@ -7,6 +7,7 @@ import org.dp.event.GameEventBus;
 import org.dp.event.IGameEvent;
 import org.dp.logic.GameSystem;
 import org.dp.logic.IGameSystem;
+import org.dp.scene.GameScene;
 import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
 import org.dp.view.Component;
@@ -122,7 +123,7 @@ public class ThreeDiceStrategy extends Component implements DiceStrategy {
                     ConfirmBox c = new ConfirmBox("你骰到了" + getDicePointSum() + "点!");
                     GameSystem.get().setNextDicePoint(getDicePointSum());
                     // 恢复为1个骰子
-                    GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getPlayerNum(), "strategy", 1);
+                    GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()], "strategy", 1);
                     c.show();
                     c.setCallback((type) -> {
                         GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());

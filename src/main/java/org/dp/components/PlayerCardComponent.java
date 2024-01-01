@@ -58,10 +58,11 @@ public class PlayerCardComponent extends Component{
 
             if(e instanceof ButtonClickEvent){
 
-                // 获取当前玩家编号
+                // 获取当前玩家动态的轮次编号
                 int playerId = GameScene.GetCurrentPlayerNum();
 
                 PlayerInfo playerInfos =GameSystem.get().getPlayerInfo();
+                // 通过动态的轮次编号获得静态的编号
                 PlayerInfo player=playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[playerId]);
 
                 int currentPlayerCard = player.cardCarNum;
@@ -81,18 +82,18 @@ public class PlayerCardComponent extends Component{
                     String strategy = "1个骰子";
 
                     if (obj == null) {// 点击取消的话
-                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[playerId], "strategy", 1);
                     }
                     else {
                         strategy = obj.toString();
                     }
-                    // 根据选择设置策略
+                    // 根据选择设置策略，这里传入的playerId是动态的轮次编号
                     if(strategy.equals("1个骰子")) {
-                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 1);
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[playerId], "strategy", 1);
                     } else if(strategy.equals("2个骰子")){
-                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 2);
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[playerId], "strategy", 2);
                     } else if(strategy.equals("3个骰子")) {
-                        GameSystem.get().getPlayerInfo().updatePlayerInfo(playerId, "strategy", 3);
+                        GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[playerId], "strategy", 3);
                     }
 
                 }
