@@ -38,6 +38,7 @@ public class GameScene extends Scene {
     public boolean isRoundEnd = false;
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
+    private boolean musicOn=true;
     private void alterCurrentPlayer(){
         // 清除骰子效果
         removeChildren((Component) diceStrategy);
@@ -88,6 +89,7 @@ public class GameScene extends Scene {
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
         GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "结束回合");
         GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
+        GameButton musicButton = new GameButton(new Vector2i(80, 800), new Vector2i(200, 50), "音乐开关");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
@@ -146,6 +148,7 @@ public class GameScene extends Scene {
         storeButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
+                //System.out.println("clickstorebutton");
                 // 只有结束回合才能开放权限
                 isRoundEnd = false;
                 // 切换到下一个玩家
@@ -155,6 +158,23 @@ public class GameScene extends Scene {
             }
         });
         addComponent(storeButton);
+
+        musicButton.registerObserver(new ComponentObserver() {
+            public void onEvent(ComponentEvent e) {
+                Playground playground = Playground.get();
+                System.out.println("clickmusicbutton");
+                if(musicOn){
+                    System.out.println("offmusicbutton");
+                    playground.musicPlayerProxy.stop();
+                    musicOn=false;
+                }else {
+                    System.out.println("onmusicbutton");
+                    playground.musicPlayerProxy.play();
+                    musicOn=true;
+                }
+            }
+        });
+        addComponent(musicButton);
 
         backButton.registerObserver(new ComponentObserver() {
             @Override
