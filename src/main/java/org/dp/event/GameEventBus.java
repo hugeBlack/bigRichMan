@@ -28,16 +28,16 @@ public class GameEventBus {
         listenerMap.get(eventType).add(listener);
     }
 
-    public boolean unregisterListener(Class eventType, GameEventListener listener){
-        if(!listenerMap.containsKey(eventType)){
-            listenerMap.put(eventType, new HashSet<>());
-        }
-        if(listenerMap.get(eventType).contains(listener)){
-            listenerMap.get(eventType).remove(listener);
-            return true;
-        }
-        return false;
-    }
+//    public boolean unregisterListener(Class eventType, GameEventListener listener){
+//        if(!listenerMap.containsKey(eventType)){
+//            listenerMap.put(eventType, new HashSet<>());
+//        }
+//        if(listenerMap.get(eventType).contains(listener)){
+//            listenerMap.get(eventType).remove(listener);
+//            return true;
+//        }
+//        return false;
+//    }
 
     // 发送事件
     public void emitEvent(IGameEvent e){

@@ -16,7 +16,6 @@ public class MapBuilder {
     private Tile[] tiles;
     GameMap ans;
 
-    // 设想是通过json生成地图，具体请诸位实现，现在的地图是硬编码进去的
     public MapBuilder(String mapConfigJson, Vector2i pos) {
         TileFactory tileFactory = new TileFactory();
         ans = new GameMap();

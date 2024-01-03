@@ -88,7 +88,7 @@ public class GameScene extends Scene {
 
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
         GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "结束回合");
-        GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
+        //GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
         GameButton musicButton = new GameButton(new Vector2i(80, 800), new Vector2i(200, 50), "音乐开关");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
@@ -177,13 +177,13 @@ public class GameScene extends Scene {
         });
         addComponent(musicButton);
 
-        backButton.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new TitleScene());
-            }
-        });
-        addComponent(backButton);
+//        backButton.registerObserver(new ComponentObserver() {
+//            @Override
+//            public void onEvent(ComponentEvent e) {
+//                Playground.get().switchScene(new TitleScene());
+//            }
+//        });
+//        addComponent(backButton);
     }
 
     @Override
