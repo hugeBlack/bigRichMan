@@ -23,4 +23,5 @@ public interface IGameSystem {
     void setCurrentPlayer(int type);
     void setNextDicePoint(int i);
     PlayerInfo getPlayerInfo();
+    Player getCurrentPlayer();
 }

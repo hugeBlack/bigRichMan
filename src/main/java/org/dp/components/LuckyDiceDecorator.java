@@ -7,6 +7,7 @@ import org.dp.event.GameEventBus;
 import org.dp.event.IGameEvent;
 import org.dp.logic.GameSystem;
 import org.dp.logic.IGameSystem;
+import org.dp.scene.GameScene;
 import org.dp.utils.AnimationTimeHelper;
 import org.dp.utils.Vector2i;
 import org.dp.view.ConfirmBox;
@@ -81,12 +82,21 @@ class LuckyDiceDecorator extends DiceDecorator {
             graphics.drawImage(diceAssets.diceImage[lastPoint - 1], p.x, p.y, 64, 64, null);
             if (nowProgress == 1) {
                 isRolling = false;
-                ConfirmBox c = new ConfirmBox("使用幸运骰子前进" + getDicePointSum() + "点!");
-                GameSystem.get().setNextDicePoint(getDicePointSum());
-                c.show();
-                c.setCallback((type) -> {
-                    GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
-                });
+                if (GameSystem.get().getScene().isRoundEnd) {
+                    ConfirmBox c = new ConfirmBox("您的回合已结束");
+                    c.show();
+                    c.setCallback((type) -> {});
+                } else {
+                    GameSystem.get().getScene().isRoundEnd = true;
+                    ConfirmBox c = new ConfirmBox("使用幸运骰子前进" + getDicePointSum() + "点!");
+                    GameSystem.get().setNextDicePoint(getDicePointSum());
+                    GameSystem.get().getPlayerInfo().updatePlayerInfo(GameSystem.get().getActorChoose()[GameScene.GetCurrentPlayerNum()], "strategy", 1);
+                    c.show();
+                    c.setCallback((type) -> {
+                        // 恢复为1个骰子
+                        GameEventBus.get().emitEvent((IGameEvent) new DiceRolledEvent());
+                    });
+                }
             }
         }
     }

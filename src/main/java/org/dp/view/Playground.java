@@ -1,4 +1,5 @@
 package org.dp.view;
+import org.dp.music.AudioPlayerProxy;
 import org.dp.scene.Scene;
 import org.dp.utils.Vector2i;
 
@@ -14,6 +15,8 @@ public class Playground extends Component{
 
     private int currentCursor = 0;
     private org.dp.view.events.MouseEvent lastMouseEvent = null;
+
+    public AudioPlayerProxy musicPlayerProxy;
 
     // 单例模式！只允许一个playground存在
     private Playground(){
@@ -47,6 +50,8 @@ public class Playground extends Component{
                 lastMouseEvent = new org.dp.view.events.HoverEvent(e.getX(), e.getY());
             }
         });
+
+        musicPlayerProxy=new AudioPlayerProxy();
     }
 
     public static Playground get(){

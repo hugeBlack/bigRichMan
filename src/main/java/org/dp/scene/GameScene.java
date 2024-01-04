@@ -35,8 +35,10 @@ public class GameScene extends Scene {
     private TitleSceneAssets assets = (TitleSceneAssets)AssetFactory.getAsset("titleSceneAssets");
     private Font font = ((FontLib)AssetFactory.getAsset("fontLib")).testFont;//编辑字体
     private static int currentPlayer=0;
+    public boolean isRoundEnd = false;
     PlayerPicture playerPicture = (PlayerPicture) AssetFactory.getAsset("player");
     PlayerInfo playerInfo = (PlayerInfo) AssetFactory.getAsset("playerInfo");
+    private boolean musicOn=true;
     private void alterCurrentPlayer(){
         // 清除骰子效果
         removeChildren((Component) diceStrategy);
@@ -47,18 +49,20 @@ public class GameScene extends Scene {
         currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
         GameSystem.get().setCurrentPlayer(currentPlayer);
 
+        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
+
+        if(playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayer]).inHospital){
+            playerInfos.reduceForbidDay(GameSystem.get().getActorChoose()[currentPlayer]);
+            ConfirmBox c = new ConfirmBox(playerInfos.getPlayerInfo(GameSystem.get().getActorChoose()[currentPlayer]).defaultName+"被禁止活动！");
+            c.show();
+            c.setCallback((type) -> {});
+            currentPlayer = (currentPlayer + 1) % GameSystem.get().getPlayerNum();
+            GameSystem.get().setCurrentPlayer(currentPlayer);
+        }
+
         // 修改游戏天数
         if(currentPlayer==0)
             gamedays++;
-
-        PlayerInfo playerInfos = GameSystem.get().getPlayerInfo();
-        if(playerInfos.getPlayerInfo(currentPlayer).inHospital==true){
-            playerInfos.reduceForbidDay(currentPlayer);
-            ConfirmBox c = new ConfirmBox("您被禁止活动！");
-            c.show();
-            c.setCallback((type) -> {});
-            currentPlayer=(currentPlayer+1)%GameSystem.get().getPlayerNum();
-        }
     }
 
     private PlayerInfoComponent playerInfoComponent;
@@ -83,13 +87,15 @@ public class GameScene extends Scene {
         playerInfoComponent = new PlayerInfoComponent();
 
         GameButton buttonOpenConfirmBox = new GameButton(new Vector2i(500, 500), new Vector2i(300, 50), "Player Info");
-//        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "商店");
-        GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
+        GameButton storeButton = new GameButton(new Vector2i(1250, 700), new Vector2i(300, 50), "结束回合");
+        //GameButton backButton = new GameButton(new Vector2i(1250, 800), new Vector2i(300, 50), "退出游戏");
+        GameButton musicButton = new GameButton(new Vector2i(80, 800), new Vector2i(200, 50), "音乐开关");
         buttonOpenConfirmBox.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
                 if (e instanceof ButtonClickEvent) {
                     playerInfoComponent.show();
+                    System.out.println("num"+GameSystem.get().getPlayerNum());
                 }
             }
         });
@@ -103,6 +109,9 @@ public class GameScene extends Scene {
         // 作用:显示玩家的手牌组件
         GameEventBus.get().registerListener(RoundStartEvent.class, event -> {
             playerCardComponent.show();
+            playerCardComponent.setExitCallback(()->{
+                GameEventBus.get().emitEvent((IGameEvent) new DiceChosenEvent());
+            });
         });
         // DiceRolled事件监听器
         // 作用:执行玩家移动逻辑,切换到下一个玩家,触发RoundStart事件
@@ -110,10 +119,10 @@ public class GameScene extends Scene {
             System.out.println("Player"+currentPlayer+"DiceRolled");
             // 执行玩家移动逻辑
             GameSystem.get().performPlayerMove();
-            // 切换到下一个玩家
-            alterCurrentPlayer();
-            // 触发RoundStart事件,为下个玩家初始化
-            GameEventBus.get().emitEvent(new RoundStartEvent());
+//            // 切换到下一个玩家
+//            alterCurrentPlayer();
+//            // 触发RoundStart事件,为下个玩家初始化
+//            GameEventBus.get().emitEvent(new RoundStartEvent());
         });
         // DiceChosen事件监听器
         // 作用:更新当前玩家的骰子策略组件
@@ -124,7 +133,9 @@ public class GameScene extends Scene {
             diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             // 如果为空则设置为默认策略1
             if (diceStrategy == null) {
-                diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
+                PlayerInfo.updatePlayerInfo(GameSystem.get().getActorChoose()[currentPlayer],"strategy",1);
+//                diceStrategy = new OneDiceStrategy(new Vector2i(1400, 230));
+                diceStrategy = PlayerInfo.playerInfos[GameSystem.get().getActorChoose()[currentPlayer]].strategy;
             }
             System.out.println(diceStrategy);
             // 设置骰子策略组件的状态为当前玩家
@@ -134,22 +145,45 @@ public class GameScene extends Scene {
         });
         addComponent(buttonOpenConfirmBox);
 
-//        // 商店按钮
-//        storeButton.registerObserver(new ComponentObserver() {
-//            @Override
-//            public void onEvent(ComponentEvent e) {
-//                Playground.get().switchScene(new StoreScene());// 切换到商店场景
-//            }
-//        });
-//        addComponent(storeButton);
-
-        backButton.registerObserver(new ComponentObserver() {
+        // 结束回合按钮
+        storeButton.registerObserver(new ComponentObserver() {
             @Override
             public void onEvent(ComponentEvent e) {
-                Playground.get().switchScene(new TitleScene());
+                //System.out.println("clickstorebutton");
+                // 只有结束回合才能开放权限
+                isRoundEnd = false;
+                // 切换到下一个玩家
+                alterCurrentPlayer();
+                // 触发RoundStart事件,为下个玩家初始化
+                GameEventBus.get().emitEvent(new RoundStartEvent());
             }
         });
-        addComponent(backButton);
+        addComponent(storeButton);
+
+        musicButton.registerObserver(new ComponentObserver() {
+            public void onEvent(ComponentEvent e) {
+                Playground playground = Playground.get();
+                System.out.println("clickmusicbutton");
+                if(musicOn){
+                    System.out.println("offmusicbutton");
+                    playground.musicPlayerProxy.stop();
+                    musicOn=false;
+                }else {
+                    System.out.println("onmusicbutton");
+                    playground.musicPlayerProxy.play();
+                    musicOn=true;
+                }
+            }
+        });
+        addComponent(musicButton);
+
+//        backButton.registerObserver(new ComponentObserver() {
+//            @Override
+//            public void onEvent(ComponentEvent e) {
+//                Playground.get().switchScene(new TitleScene());
+//            }
+//        });
+//        addComponent(backButton);
     }
 
     @Override

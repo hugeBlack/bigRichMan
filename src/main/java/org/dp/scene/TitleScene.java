@@ -39,14 +39,14 @@ public class TitleScene extends Scene {
             }
         });
 
-        GameButton saveButton = new GameButton(new Vector2i(700, 600), new Vector2i(200, 50), "读取存档");
-        addComponent(saveButton);
-        saveButton.registerObserver(new ComponentObserver() {
-            @Override
-            public void onEvent(ComponentEvent e) {
-                System.out.println("读取存档!");
-            }
-        });
+//        GameButton saveButton = new GameButton(new Vector2i(700, 600), new Vector2i(200, 50), "读取存档");
+//        addComponent(saveButton);
+//        saveButton.registerObserver(new ComponentObserver() {
+//            @Override
+//            public void onEvent(ComponentEvent e) {
+//                System.out.println("读取存档!");
+//            }
+//        });
     }
 
     @Override

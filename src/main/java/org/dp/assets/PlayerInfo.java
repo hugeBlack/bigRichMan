@@ -47,7 +47,7 @@ public class PlayerInfo  implements IAsset{
     }
 
     // 更新玩家信息
-    public void updatePlayerInfo(int i,String type,int num){//i为玩家编号，type为更新的类型，num为更新的数值
+    public static void updatePlayerInfo(int i, String type, int num){//i为玩家编号，type为更新的类型，num为更新的数值
         if(type.toLowerCase(). equals("coin")){
             playerInfos[i].coinNum = num;
         }
@@ -80,7 +80,7 @@ public class PlayerInfo  implements IAsset{
         }
     }
 
-    // 更新玩家是否在医院的信息
+    // 更新玩家是否在医院的信息，传的也是静态的写死的编号
     public void setInHospital(int i,boolean inHospital,int forbidDay){
         playerInfos[i].inHospital = inHospital;
         playerInfos[i].forbidDay = forbidDay;

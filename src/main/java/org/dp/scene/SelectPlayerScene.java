@@ -20,14 +20,13 @@ public class SelectPlayerScene extends Scene {
     private int actorSize;//可供选择的角色的数量
     //定义一个长度为4，每个值都是-1的int型数组
     //数组中的值表示玩家选择的角色，-1表示未选择
-     private int[] currentChoose=new int[]{-1,-1,-1,-1};
+     private int[] currentChoose=new int[]{0,1,2,3};
     private GameButton[] leftButton=new GameButton[4];
     private GameButton[] rightButton=new GameButton[4];
     private Font font = ((FontLib) AssetFactory.getAsset("fontLib")).testFont;
     private GameButton nextButton;
     private GameButton prevButton;
 
-    private PlayersNumScene playerNumScene;
     private static boolean contains(int[] arr, int num) {
         int count=0;
         for (int i : arr) {
@@ -41,9 +40,9 @@ public class SelectPlayerScene extends Scene {
     }
 
 
-    public void setPlayerNumScene(PlayersNumScene playerNumScene) {
-        this.playerNumScene = playerNumScene;
-    }
+//    public void setPlayerNumScene(PlayersNumScene playerNumScene) {
+//        this.playerNumScene = playerNumScene;
+//    }
 
     public SelectPlayerScene() {
 
@@ -75,6 +74,8 @@ public class SelectPlayerScene extends Scene {
         int playerNum = 0;
         for(int i = 0;i < GameSystem.get().getPlayerNum();i++)
             playerNum ++;
+        for(int i=GameSystem.get().getPlayerNum();i<=4;i++)
+            currentChoose[i-1]=-1;
         int maxPlayerNum = 4;
         //初始化选择的角色
         for(int i=0;i<GameSystem.get().getPlayerNum();i++)
